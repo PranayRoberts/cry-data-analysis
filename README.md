@@ -130,12 +130,6 @@ npm run dev
 
 Open `http://localhost:5173` in your browser.
 
-### Login Credentials
-```
-Username: admin
-Password: CRY@Admin2025
-```
-
 ---
 
 ## Project Structure
