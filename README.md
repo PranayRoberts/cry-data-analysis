@@ -14,6 +14,11 @@
   <img src="https://img.shields.io/badge/Vite-6.3.5-646CFF?logo=vite" alt="Vite"/>
   <img src="https://img.shields.io/badge/Plotly.js-Interactive-3F4F75?logo=plotly" alt="Plotly"/>
   <img src="https://img.shields.io/badge/TailwindCSS-4.1-06B6D4?logo=tailwindcss" alt="Tailwind"/>
+  <img src="https://img.shields.io/badge/Deployed-Vercel-000000?logo=vercel" alt="Vercel"/>
+</p>
+
+<p align="center">
+  <a href="https://cry-data-analysis.vercel.app"><strong>🌐 Live Demo: cry-data-analysis.vercel.app</strong></a>
 </p>
 
 ---
@@ -218,14 +223,29 @@ The dashboard processes 8 Excel files (2023 and 2024 data):
 
 ## Deployment
 
-### Deploy to Vercel (Recommended)
+### Live Application
 
-1. Push your code to GitHub
+The dashboard is deployed and accessible at:
+
+**🌐 [https://cry-data-analysis.vercel.app](https://cry-data-analysis.vercel.app)**
+
+> **🔐 Login Credentials:** For access to the live demo, please contact me at [GitHub](https://github.com/PranayRoberts) to request login credentials.
+
+### Deploy Your Own Instance to Vercel
+
+1. Fork this repository to your GitHub account
 2. Go to [vercel.com](https://vercel.com) and sign in with GitHub
 3. Click **"Add New Project"**
-4. Import your `cry-data-analysis` repository
-5. Vercel auto-detects Vite - click **Deploy**
-6. Your site will be live at `https://your-project.vercel.app`
+4. Import your forked `cry-data-analysis` repository
+5. **Add Environment Variables** (Settings → Environment Variables):
+   | Name | Value |
+   |------|-------|
+   | `VITE_DEMO_USERNAME` | `admin` |
+   | `VITE_DEMO_PASSWORD` | `YourSecurePassword` |
+6. Click **Deploy**
+7. Your site will be live at `https://your-project.vercel.app`
+
+> **Note:** Environment variables are required for authentication to work on Vercel.
 
 ### Build for Production
 
