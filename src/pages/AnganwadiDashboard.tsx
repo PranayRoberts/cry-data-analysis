@@ -143,12 +143,12 @@ export const AnganwadiDashboard: React.FC = () => {
       <div className="mb-6 p-4 bg-blue-50 border-l-4 border-gray-900/60 dark:border-gray-100/40 rounded-lg">
         <h3 className="font-semibold text-blue-900 mb-2">What This Dashboard Shows:</h3>
         <ul className="text-sm text-blue-800 space-y-1">
-          <li><strong>Center Growth:</strong> Track expansion of Anganwadi centers from 2023 to 2024</li>
-          <li><strong>Child Enrollment:</strong> Monitor children served across age groups (0-3 years, 3-6 years, adolescent girls 10-18)</li>
-          <li><strong>Service Delivery:</strong> Evaluate availability of critical services like immunization, health checkups, and nutrition programs</li>
-          <li><strong>Geographic Coverage:</strong> Identify service gaps and areas needing intervention across regions and districts</li>
+          <li><strong>Center Network:</strong> 3,998 Anganwadi centers tracked (2,013 in 2024 + 1,985 in 2023), showing +1.4% expansion year-over-year</li>
+          <li><strong>Service Delivery:</strong> Health checkups, immunization (87-91% coverage), nutrition education, and referral services availability</li>
+          <li><strong>Geographic Coverage:</strong> Multi-region coverage with district-level filtering to identify service gaps</li>
+          <li><strong>Early Childhood Focus:</strong> Children 0-6 years and adolescent girls (10-18) receiving ICDS benefits</li>
         </ul>
-        <p className="text-xs text-blue-700 mt-2 italic"><strong>How to use:</strong> Apply region/district filters to compare performance, look for upward trends (↑) indicating growth, and identify centers with high service availability.</p>
+        <p className="text-xs text-blue-700 mt-2 italic"><strong>Key Data:</strong> Use filters to compare regional performance. Service availability percentages show what proportion of centers offer each service.</p>
       </div>
 
       <FilterBar
@@ -364,19 +364,19 @@ export const AnganwadiDashboard: React.FC = () => {
                 <li className="flex items-start space-x-2">
                   <span className="text-red-500 font-bold">•</span>
                   <div>
-                    <strong>0-3 Year Outreach:</strong> Increase home visits to identify and enroll infants in underserved areas
+                    <strong>Referral Services Gap:</strong> Only {serviceAvailability.find(s => s.service === 'Referral Services')?.['2024'] || 0}% of centers have referral services - establish linkages with PHCs for remaining centers
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-red-500 font-bold">•</span>
                   <div>
-                    <strong>Referral Services:</strong> Strengthen referral pathways - currently at only {serviceAvailability.find(s => s.service === 'Referral Services')?.['2024'] || 0}%
+                    <strong>0-3 Year Outreach:</strong> Increase home visits and community mobilization to improve infant registration in underserved areas
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-red-500 font-bold">•</span>
                   <div>
-                    <strong>Migration Tracking:</strong> Implement systems to track migrant families and ensure continuity
+                    <strong>Girls' Retention:</strong> Monitor gender ratio closely - implement girl-friendly facilities where enrollment is declining
                   </div>
                 </li>
               </ul>
@@ -389,19 +389,19 @@ export const AnganwadiDashboard: React.FC = () => {
                 <li className="flex items-start space-x-2">
                   <span className="text-amber-500 font-bold">•</span>
                   <div>
-                    <strong>Nutrition Programs:</strong> Enhance supplementary nutrition and hot cooked meals quality
+                    <strong>Nutrition Programs:</strong> Strengthen supplementary nutrition delivery - use NFHS-5 (2019-21) baseline data to target high-malnutrition districts
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-amber-500 font-bold">•</span>
                   <div>
-                    <strong>AWW Training:</strong> Conduct refresher training for Anganwadi Workers on child development
+                    <strong>AWW Training:</strong> Conduct refresher training on growth monitoring and early childhood care across all {stats2024.totalRecords.toLocaleString()} centers
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-amber-500 font-bold">•</span>
                   <div>
-                    <strong>Community Engagement:</strong> Monthly parent meetings to improve attendance and enrollment
+                    <strong>Service Standardization:</strong> Ensure all 6 ICDS services available at every center - target 95%+ coverage
                   </div>
                 </li>
               </ul>
@@ -414,19 +414,19 @@ export const AnganwadiDashboard: React.FC = () => {
                 <li className="flex items-start space-x-2">
                   <span className="text-green-500 font-bold">•</span>
                   <div>
-                    <strong>Center Expansion:</strong> Open new centers in underserved hamlets and urban slums
+                    <strong>Geographic Expansion:</strong> Extend center network to underserved hamlets - build on +1.4% growth trend
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-green-500 font-bold">•</span>
                   <div>
-                    <strong>Infrastructure Upgrade:</strong> Improve center facilities - water, sanitation, play equipment
+                    <strong>Infrastructure Upgrade:</strong> Improve center facilities - water, sanitation, play equipment, learning materials
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-green-500 font-bold">•</span>
                   <div>
-                    <strong>ECE Quality:</strong> Strengthen early childhood education curriculum and materials
+                    <strong>Malnutrition Focus:</strong> Target high-stunting states (Bihar, Jharkhand, MP) with intensive nutrition interventions
                   </div>
                 </li>
               </ul>
@@ -439,19 +439,19 @@ export const AnganwadiDashboard: React.FC = () => {
                 <li className="flex items-start space-x-2">
                   <span className="text-purple-500 font-bold">•</span>
                   <div>
-                    <strong>Target:</strong> Achieve 100% immunization and health checkup coverage
+                    <strong>Target:</strong> Achieve 95%+ coverage for all 4 core services (Health, Immunization, Nutrition Ed, Referral)
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-purple-500 font-bold">•</span>
                   <div>
-                    <strong>Target:</strong> Increase referral services to 80%+ centers
+                    <strong>Target:</strong> Maintain immunization at 90%+ (current: {serviceAvailability.find(s => s.service === 'Immunization')?.['2024'] || 0}%)
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-purple-500 font-bold">•</span>
                   <div>
-                    <strong>Target:</strong> Maintain gender parity within 2% of 50-50
+                    <strong>Target:</strong> Gender parity within 2% of 50-50 across all centers
                   </div>
                 </li>
                 <li className="flex items-start space-x-2">

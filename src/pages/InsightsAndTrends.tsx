@@ -6,275 +6,251 @@ import {
   Section,
 } from '../components/Dashboard';
 import { GroupedBarChart } from '../components/Charts';
-import { TrendingUp, TrendingDown, Award, AlertCircle } from 'lucide-react';
+import { TrendingUp, TrendingDown, MapPin } from 'lucide-react';
 
-// Types for summary data
-interface YearData {
-  count: number;
-  boys: number;
-  girls: number;
+// Interface for NFHS-5 nutrition data
+interface NFHS5StateData {
+  stunting: number;
+  wasting: number;
+  underweight: number;
 }
 
-interface ChildSummaryData {
-  totalRecords: number;
-  byYear: Record<string, YearData>;
-  byState: Record<string, YearData>;
-  byProject: Record<string, YearData>;
-  byAgeBand: Record<string, number>;
-  byFacilityType: Record<string, number>;
-  byLocationType: Record<string, number>;
-  bySocialCategory: Record<string, number>;
-  byReligion: Record<string, number>;
-  byEducationalStatus: Record<string, number>;
-  byDropoutReason: Record<string, number>;
-  specialNeeds: { yes: number; no: number };
-  stateYearData: Record<string, Record<string, YearData>>;
-  sampleRecords: any[];
+interface NFHS5Data {
+  source: string;
+  description: string;
+  indicators: Record<string, string>;
+  notes: string;
+  india_average: NFHS5StateData;
+  state_data: Record<string, NFHS5StateData>;
 }
 
-interface EducationSummaryData {
-  totalRecords: number;
-  byYear: Record<string, YearData>;
-  byState: Record<string, YearData>;
-  byProject: Record<string, YearData>;
-  byGrade: Record<string, number>;
-  bySchoolType: Record<string, number>;
-  byMediumOfInstruction: Record<string, number>;
-  byBoardOfEducation: Record<string, number>;
-  byAttendanceRate: { excellent: number; good: number; average: number; poor: number };
-  byPerformance: Record<string, number>;
-  stateYearData: Record<string, Record<string, YearData>>;
-  sampleRecords: any[];
+// Interface for insights data with correlations
+interface StateCorrelation {
+  state: string;
+  cryChildren: number;
+  cryBoys: number;
+  cryGirls: number;
+  nfhs5_underweight: number;
+  nfhs5_stunting: number;
+  nfhs5_wasting: number;
+  underweight_vs_avg: number;
+  stunting_vs_avg: number;
+  wasting_vs_avg: number;
+  districts: string[];
+}
+
+interface InsightsData {
+  stateList: string[];
+  districtsByState: Record<string, string[]>;
+  nfhs5: {
+    indiaAverage: NFHS5StateData;
+    stateData: Record<string, NFHS5StateData>;
+  };
+  cryStateData: Record<string, {
+    totalChildren: number;
+    boys: number;
+    girls: number;
+    districts: Record<string, { totalChildren: number; boys: number; girls: number }>;
+  }>;
+  stateCorrelations: StateCorrelation[];
 }
 
 // Component: Key Insights & Trends Dashboard
 export const InsightsAndTrends: React.FC = () => {
   // Data fetching hooks
-  const { data: childData, loading: childLoading } = useData({
+  const { loading: childLoading } = useData({
     dataPath: '/data/child_annual_data.json',
   });
-  const { data: educationData, loading: educationLoading } = useData({
+  const { loading: educationLoading } = useData({
     dataPath: '/data/child_education_data.json',
   });
-  const { data: schoolData, loading: schoolLoading } = useData({
+  const { loading: schoolLoading } = useData({
     dataPath: '/data/school_data.json',
   });
-  const { data: _anganwadiData, loading: anganwadiLoading } = useData({
+  const { loading: anganwadiLoading } = useData({
     dataPath: '/data/anganwadi_data.json',
   });
+  const { data: nfhs5Data, loading: nfhs5Loading } = useData({
+    dataPath: '/data/nfhs5_nutrition_data.json',
+  });
+  const { data: insightsData, loading: insightsLoading } = useData({
+    dataPath: '/data/insights_data.json',
+  });
 
-  // State hook
+  // State hooks for filters
   const [selectedMetric, setSelectedMetric] = useState<'underweight' | 'stunting' | 'wasting'>('underweight');
+  const [selectedState, setSelectedState] = useState<string>('All States');
+  const [selectedDistrict, setSelectedDistrict] = useState<string>('All Districts');
 
-  // Check if data is in new summary format
-  const isSummaryFormat = useMemo(() => {
-    return childData && (childData as any).totalRecords !== undefined;
-  }, [childData]);
-
-  // Get child summary data
-  const childSummary = useMemo((): ChildSummaryData | null => {
-    if (!childData || !isSummaryFormat) return null;
-    return childData as ChildSummaryData;
-  }, [childData, isSummaryFormat]);
-
-  // Get education summary data
-  const educationSummary = useMemo((): EducationSummaryData | null => {
-    if (!educationData) return null;
-    if ((educationData as any).totalRecords !== undefined) {
-      return educationData as EducationSummaryData;
+  // Get available states and districts from insights data
+  const { availableStates, availableDistricts } = useMemo(() => {
+    const insights = insightsData as InsightsData | null;
+    if (!insights) {
+      return { availableStates: [], availableDistricts: [] };
     }
-    return null;
-  }, [educationData]);
 
-  // Generate nutrition trends from state-year data (simulated based on actual state distributions)
+    const states = insights.stateList || [];
+    const districts = selectedState !== 'All States' && insights.districtsByState
+      ? insights.districtsByState[selectedState] || []
+      : [];
+
+    return { availableStates: states, availableDistricts: districts };
+  }, [insightsData, selectedState]);
+
+  // Reset district when state changes
+  const handleStateChange = (state: string) => {
+    setSelectedState(state);
+    setSelectedDistrict('All Districts');
+  };
+
+  // Generate nutrition trends from NFHS-5 official government data
   const nutritionAnalysis = useMemo(() => {
-    if (!childSummary || !childSummary.stateYearData) return null;
+    if (!nfhs5Data || !(nfhs5Data as NFHS5Data).state_data) return null;
 
+    const nfhs = nfhs5Data as NFHS5Data;
     const comparisons: any[] = [];
+    const indiaAvg = nfhs.india_average;
     
-    // Generate nutrition metrics for each state based on actual child counts
-    Object.entries(childSummary.stateYearData).forEach(([state, yearData]) => {
-      const data2023 = yearData['2023'] || { count: 0, boys: 0, girls: 0 };
-      const data2024 = yearData['2024'] || { count: 0, boys: 0, girls: 0 };
-      
-      if (data2023.count === 0 && data2024.count === 0) return;
-      if (state === 'Unknown' || state === 'None') return;
-      
-      // Generate deterministic nutrition percentages based on state name
-      const hash = state.split('').reduce((acc, char, idx) => acc + char.charCodeAt(0) * (idx + 1), 0);
-      const seededRandom = (seed: number) => {
-        const x = Math.sin(seed * 9999) * 10000;
-        return x - Math.floor(x);
-      };
-      
-      // Base values for 2023
-      const baseUnderweight = 18 + seededRandom(hash) * 17;
-      const baseStunting = 22 + seededRandom(hash + 100) * 19;
-      const baseWasting = 10 + seededRandom(hash + 200) * 11;
-      
-      // Changes for 2024 (simulate improvements/declines)
-      const uwChange = (seededRandom(hash + 1000) * 12) - 7;
-      const stChange = (seededRandom(hash + 2000) * 9) - 5;
-      const waChange = (seededRandom(hash + 3000) * 12) - 6;
+    // Use real NFHS-5 state-wise nutrition data
+    Object.entries(nfhs.state_data).forEach(([state, data]) => {
+      // NFHS-5 provides 2019-2021 data - we show actual values
+      // For comparison, we use India average as baseline to show relative performance
       
       ['underweight', 'stunting', 'wasting'].forEach((metric) => {
-        let val2023, val2024;
-        if (metric === 'underweight') {
-          val2023 = baseUnderweight;
-          val2024 = Math.max(8, Math.min(45, baseUnderweight + uwChange));
-        } else if (metric === 'stunting') {
-          val2023 = baseStunting;
-          val2024 = Math.max(12, Math.min(50, baseStunting + stChange));
-        } else {
-          val2023 = baseWasting;
-          val2024 = Math.max(5, Math.min(25, baseWasting + waChange));
-        }
+        const stateValue = data[metric as keyof NFHS5StateData];
+        const avgValue = indiaAvg[metric as keyof NFHS5StateData];
         
         comparisons.push({
           location: state,
           metric,
-          value2023: val2023,
-          value2024: val2024,
-          change: val2024 - val2023,
-          count2023: data2023.count,
-          count2024: data2024.count,
+          value2023: avgValue, // India average as baseline
+          value2024: stateValue, // Actual state value
+          change: stateValue - avgValue, // Difference from national average
+          isNFHS5: true, // Flag that this is real NFHS-5 data
         });
       });
     });
     
-    return { comparisons };
-  }, [childSummary]);
-
-  // Performance rankings from state data
-  const performanceRankings = useMemo(() => {
-    if (!educationSummary || !educationSummary.byState) return null;
-    
-    const stateData = Object.entries(educationSummary.byState)
-      .filter(([state]) => state !== 'Unknown' && state !== 'None')
-      .map(([state, data]) => ({
-        location: state,
-        value: data.count,
-        boys: data.boys,
-        girls: data.girls,
-      }))
-      .sort((a, b) => b.value - a.value);
-    
-    return {
-      top: stateData.slice(0, 10),
-      bottom: stateData.slice(-10).reverse(),
+    return { 
+      comparisons,
+      source: nfhs.source,
+      indiaAverage: indiaAvg,
     };
-  }, [educationSummary]);
+  }, [nfhs5Data]);
 
-  // Infrastructure analysis from school data
-  const infrastructureAnalysis = useMemo(() => {
-    if (!schoolData) return null;
-    
-    // Check for raw school data format
-    const schoolRecords = (schoolData as any)['school-level-information_2024.xlsx_school-level-information'] || [];
-    if (!Array.isArray(schoolRecords) || schoolRecords.length === 0) return null;
-    
-    // Infrastructure fields with their display names
-    const facilities = [
-      { key: 'Toilet for children', display: 'Toilets for Children' },
-      { key: 'Separate Toilet for Girls', display: 'Separate Girls Toilets' },
-      { key: 'Water available in Toilet', display: 'Water in Toilets' },
-      { key: 'Availablity of Drinking Water', display: 'Drinking Water' },
-      { key: 'Availability of Electricity', display: 'Electricity' },
-    ];
-    
-    return facilities.map(({ key, display }) => {
-      let withCount = 0, withoutCount = 0;
-      let withTotal = 0, withoutTotal = 0;
-      
-      schoolRecords.forEach((school: any) => {
-        const value = school[key];
-        // Check for any positive response (starts with 'Yes' or similar)
-        const hasInfra = value && typeof value === 'string' && 
-          (value.toLowerCase().startsWith('yes') || value === 'Available');
-        const noInfra = value === 'No' || value === 'Not available' || value === 'Not applicable';
-        
-        // Get total children enrolled - use correct field names
-        const boys = parseFloat(school['Total Boys']) || 0;
-        const girls = parseFloat(school['Total Girls']) || 0;
-        const children = boys + girls;
-        
-        if (hasInfra) {
-          withCount++;
-          withTotal += children;
-        } else if (noInfra || !value) {
-          withoutCount++;
-          withoutTotal += children;
-        }
-      });
-      
-      const avgWith = withCount > 0 ? withTotal / withCount : 0;
-      const avgWithout = withoutCount > 0 ? withoutTotal / withoutCount : 0;
-      
-      return {
-        facility: display,
-        hasInfrastructure: { count: withCount, avgAttendance: avgWith },
-        noInfrastructure: { count: withoutCount, avgAttendance: avgWithout },
-        impact: avgWithout > 0 ? ((avgWith - avgWithout) / avgWithout) * 100 : 0,
-      };
-    });
-  }, [schoolData]);
-
-  // Equity analysis from location type data
-  const equityAnalysis = useMemo(() => {
-    if (!childSummary || !childSummary.byLocationType) return null;
-    
-    return Object.entries(childSummary.byLocationType)
-      .filter(([category]) => category !== 'Unknown' && category !== 'None' && category !== 'null')
-      .map(([category, count]) => {
-        // For location type, we need to estimate boys/girls from overall ratio
-        const totalBoys = Object.values(childSummary.byYear).reduce((sum, y) => sum + y.boys, 0);
-        const totalGirls = Object.values(childSummary.byYear).reduce((sum, y) => sum + y.girls, 0);
-        const total = totalBoys + totalGirls;
-        const ratio = total > 0 ? totalGirls / total : 0.5;
-        
-        const estimatedGirls = Math.round(count * ratio);
-        const estimatedBoys = count - estimatedGirls;
-        
-        return {
-          category,
-          totalChildren: count,
-          boys: estimatedBoys,
-          girls: estimatedGirls,
-          genderRatio: count > 0 ? (estimatedGirls / count) * 100 : 0,
-        };
-      })
-      .sort((a, b) => b.totalChildren - a.totalChildren);
-  }, [childSummary]);
-
-  // Prepare nutrition chart data
+  // Prepare nutrition chart data - filter by selected state
   const nutritionChartData = useMemo(() => {
     if (!nutritionAnalysis) return [];
 
-    const filteredComparisons = nutritionAnalysis.comparisons
-      .filter((c: any) => c.metric === selectedMetric)
+    let filteredComparisons = nutritionAnalysis.comparisons
+      .filter((c: any) => c.metric === selectedMetric);
+
+    // Apply state filter
+    if (selectedState !== 'All States') {
+      filteredComparisons = filteredComparisons.filter((c: any) => 
+        c.location.toLowerCase() === selectedState.toLowerCase()
+      );
+    }
+
+    filteredComparisons = filteredComparisons
       .sort((a: any, b: any) => a.change - b.change)
       .slice(0, 15);
 
     return filteredComparisons.map((c: any) => ({
-      location: c.location.substring(0, 20),
+      location: c.location, // Full state name - no truncation
       '2023': parseFloat(c.value2023.toFixed(1)),
       '2024': parseFloat(c.value2024.toFixed(1)),
     }));
-  }, [nutritionAnalysis, selectedMetric]);
+  }, [nutritionAnalysis, selectedMetric, selectedState]);
 
-  // Infrastructure impact chart
-  const infrastructureChartData = useMemo(() => {
-    if (!infrastructureAnalysis) return [];
+  // CRY-NFHS5 Correlation analysis
+  const correlationAnalysis = useMemo(() => {
+    const insights = insightsData as InsightsData | null;
+    if (!insights || !insights.stateCorrelations) return null;
 
-    return infrastructureAnalysis.map((infra) => ({
-      facility: infra.facility.length > 20 ? infra.facility.substring(0, 18) + '...' : infra.facility,
-      'With Infrastructure': parseFloat(infra.hasInfrastructure.avgAttendance.toFixed(1)),
-      'Without Infrastructure': parseFloat(infra.noInfrastructure.avgAttendance.toFixed(1)),
+    let correlations = insights.stateCorrelations;
+
+    // Filter by selected state
+    if (selectedState !== 'All States') {
+      correlations = correlations.filter(c => c.state === selectedState);
+    }
+
+    // Calculate priority scores (higher = needs more attention)
+    const withPriority = correlations.map(c => ({
+      ...c,
+      priorityScore: (c.underweight_vs_avg + c.stunting_vs_avg + c.wasting_vs_avg) / 3,
+      interventionNeeded: c.underweight_vs_avg > 0 || c.stunting_vs_avg > 0 || c.wasting_vs_avg > 0,
     }));
-  }, [infrastructureAnalysis]);
+
+    // Sort by priority (worst first)
+    const sorted = withPriority.sort((a, b) => b.priorityScore - a.priorityScore);
+
+    return {
+      all: sorted,
+      highPriority: sorted.filter(c => c.priorityScore > 5).slice(0, 5),
+      performing: sorted.filter(c => c.priorityScore < 0).slice(-5).reverse(),
+      totalCryChildren: correlations.reduce((sum, c) => sum + c.cryChildren, 0),
+    };
+  }, [insightsData, selectedState]);
+
+  // District-level data for selected state
+  const districtData = useMemo(() => {
+    const insights = insightsData as InsightsData | null;
+    if (!insights || selectedState === 'All States') return null;
+
+    const stateData = insights.cryStateData?.[selectedState];
+    if (!stateData || !stateData.districts) return null;
+
+    return Object.entries(stateData.districts)
+      .map(([district, data]) => ({
+        district,
+        ...data,
+      }))
+      .sort((a, b) => b.totalChildren - a.totalChildren);
+  }, [insightsData, selectedState]);
+
+  // Chart data for CRY Program Reach by State
+  const cryReachChartData = useMemo(() => {
+    if (!correlationAnalysis) return [];
+
+    return correlationAnalysis.all
+      .slice(0, 12)
+      .map(c => ({
+        state: c.state, // Full state name
+        'CRY Children': c.cryChildren,
+        'Boys': c.cryBoys,
+        'Girls': c.cryGirls,
+      }));
+  }, [correlationAnalysis]);
+
+  // Chart data for Nutrition vs CRY Reach (scatter-like bar chart)
+  const nutritionVsReachChartData = useMemo(() => {
+    if (!correlationAnalysis) return [];
+
+    return correlationAnalysis.all
+      .slice(0, 10)
+      .map(c => ({
+        state: c.state, // Full state name
+        'Underweight %': c.nfhs5_underweight,
+        'Stunting %': c.nfhs5_stunting,
+        'Wasting %': c.nfhs5_wasting,
+      }));
+  }, [correlationAnalysis]);
+
+  // District chart data
+  const districtChartData = useMemo(() => {
+    if (!districtData) return [];
+
+    return districtData.slice(0, 10).map(d => ({
+      district: d.district, // Full district name
+      'Total Children': d.totalChildren,
+      'Boys': d.boys,
+      'Girls': d.girls,
+    }));
+  }, [districtData]);
 
   // Loading check
-  const loading = childLoading || educationLoading || schoolLoading || anganwadiLoading;
+  const loading = childLoading || educationLoading || schoolLoading || anganwadiLoading || nfhs5Loading || insightsLoading;
 
   if (loading) return <LoadingSpinner />;
 
@@ -284,43 +260,281 @@ export const InsightsAndTrends: React.FC = () => {
       <div className="mb-8">
         <h1 className="text-5xl font-bold text-gray-900 mb-3">Key Insights & Trends</h1>
         <p className="text-xl text-gray-600 mb-4">
-          Deep-dive analysis answering critical questions about nutrition, infrastructure, equity, and performance
+          Deep-dive analysis of nutrition trends and CRY program correlations with NFHS-5 government data
         </p>
 
         <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-lg shadow-md">
           <h3 className="font-semibold text-purple-900 mb-2">What You'll Find Here:</h3>
           <ul className="text-sm text-purple-800 space-y-1">
-            <li><strong>Nutrition Trends:</strong> Underweight, stunting, wasting by location with year-over-year changes</li>
-            <li><strong>Performance Rankings:</strong> Top 10 best and worst performing districts/blocks</li>
-            <li><strong>Infrastructure Impact:</strong> How toilets, water, electricity affect child outcomes</li>
-            <li><strong>Equity Analysis:</strong> Rural vs urban, gender balance, and geographic disparities</li>
+            <li><strong>Nutrition Trends:</strong> NFHS-5 official data on underweight, stunting, wasting by state</li>
+            <li><strong>CRY-NFHS5 Correlations:</strong> How CRY program presence relates to nutrition outcomes</li>
+            <li><strong>State-wise Analysis:</strong> Compare nutrition indicators across states with CRY presence</li>
+            <li><strong>Actionable Recommendations:</strong> Data-driven insights for leadership decisions</li>
           </ul>
         </div>
+
+        {/* State & District Filters */}
+        <Section title="Filters">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* State Filter */}
+            <div>
+              <label htmlFor="state-filter" className="block text-sm font-medium text-gray-700 mb-1">
+                <MapPin className="inline mr-1" size={16} />
+                State
+              </label>
+              <select
+                id="state-filter"
+                value={selectedState}
+                onChange={(e) => handleStateChange(e.target.value)}
+                title="Select a state to filter data"
+                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+              >
+                <option value="All States">All States</option>
+                {availableStates.map((state) => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* District Filter */}
+            <div>
+              <label htmlFor="district-filter" className="block text-sm font-medium text-gray-700 mb-1">
+                <MapPin className="inline mr-1" size={16} />
+                District
+              </label>
+              <select
+                id="district-filter"
+                value={selectedDistrict}
+                onChange={(e) => setSelectedDistrict(e.target.value)}
+                disabled={selectedState === 'All States'}
+                title="Select a district to filter data"
+                className={`w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 ${
+                  selectedState === 'All States' ? 'bg-gray-100 cursor-not-allowed text-gray-500' : ''
+                }`}
+              >
+                <option value="All Districts">All Districts</option>
+                {availableDistricts.map((district) => (
+                  <option key={district} value={district}>{district}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Filter Summary */}
+          {selectedState !== 'All States' && (
+            <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Showing data for:</strong> {selectedState}
+                {selectedDistrict !== 'All Districts' && ` > ${selectedDistrict}`}
+              </p>
+            </div>
+          )}
+        </Section>
       </div>
+
+      {/* CRY-NFHS5 Correlation Section */}
+      {correlationAnalysis && (
+        <Section title="CRY Program Reach vs. Nutrition Needs (Data Correlation)">
+          <div className="mb-4 p-4 bg-green-50 border-l-4 border-green-500 rounded">
+            <p className="text-sm text-gray-700">
+              <strong>Insight:</strong> This section correlates CRY's program reach with NFHS-5 nutrition data. 
+              States with <span className="text-red-600 font-semibold">high malnutrition but low CRY coverage</span> need priority intervention.
+              States with <span className="text-green-600 font-semibold">high CRY reach in high-need areas</span> show good strategic alignment.
+            </p>
+          </div>
+
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="bg-blue-50 p-4 rounded-lg text-center">
+              <p className="text-3xl font-bold text-blue-700">{correlationAnalysis.all.length}</p>
+              <p className="text-sm text-gray-600">States with CRY Programs</p>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg text-center">
+              <p className="text-3xl font-bold text-green-700">{correlationAnalysis.totalCryChildren.toLocaleString()}</p>
+              <p className="text-sm text-gray-600">Total CRY Children</p>
+            </div>
+            <div className="bg-red-50 p-4 rounded-lg text-center">
+              <p className="text-3xl font-bold text-red-700">{correlationAnalysis.highPriority.length}</p>
+              <p className="text-sm text-gray-600">High Priority States</p>
+            </div>
+          </div>
+
+          {/* Charts Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* CRY Program Reach by State */}
+            {cryReachChartData.length > 0 && (
+              <ChartContainer>
+                <h3 className="text-lg font-semibold mb-4 text-center">
+                  CRY Program Reach by State (Children Enrolled)
+                </h3>
+                <GroupedBarChart
+                  data={cryReachChartData}
+                  xKey="state"
+                  lines={[
+                    { key: 'Boys', name: 'Boys', color: '#3b82f6' },
+                    { key: 'Girls', name: 'Girls', color: '#ec4899' },
+                  ]}
+                  title=""
+                  height={420}
+                />
+              </ChartContainer>
+            )}
+
+            {/* Malnutrition Rates by State */}
+            {nutritionVsReachChartData.length > 0 && (
+              <ChartContainer>
+                <h3 className="text-lg font-semibold mb-4 text-center">
+                  Malnutrition Rates in CRY States (NFHS-5 Data)
+                </h3>
+                <GroupedBarChart
+                  data={nutritionVsReachChartData}
+                  xKey="state"
+                  lines={[
+                    { key: 'Underweight %', name: 'Underweight', color: '#ef4444' },
+                    { key: 'Stunting %', name: 'Stunting', color: '#f97316' },
+                    { key: 'Wasting %', name: 'Wasting', color: '#eab308' },
+                  ]}
+                  title=""
+                  height={420}
+                />
+              </ChartContainer>
+            )}
+          </div>
+
+          {/* Correlation Table */}
+          <div className="overflow-x-auto bg-white rounded-lg shadow">
+            <h3 className="text-lg font-semibold p-4 bg-gray-50 border-b">
+              State-wise CRY Coverage & Nutrition Status
+            </h3>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">State</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">CRY Children</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Underweight %</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Stunting %</th>
+                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Wasting %</th>
+                  <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Priority</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {correlationAnalysis.all.slice(0, 10).map((corr, idx) => (
+                  <tr key={idx} className={corr.interventionNeeded ? 'bg-red-50' : 'bg-green-50'}>
+                    <td className="px-4 py-3 text-sm font-medium text-gray-900">{corr.state}</td>
+                    <td className="px-4 py-3 text-sm text-right text-gray-700">{corr.cryChildren.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-sm text-right">
+                      <span className={corr.underweight_vs_avg > 0 ? 'text-red-600' : 'text-green-600'}>
+                        {corr.nfhs5_underweight}% 
+                        <span className="text-xs ml-1">({corr.underweight_vs_avg > 0 ? '+' : ''}{corr.underweight_vs_avg.toFixed(1)})</span>
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-right">
+                      <span className={corr.stunting_vs_avg > 0 ? 'text-red-600' : 'text-green-600'}>
+                        {corr.nfhs5_stunting}%
+                        <span className="text-xs ml-1">({corr.stunting_vs_avg > 0 ? '+' : ''}{corr.stunting_vs_avg.toFixed(1)})</span>
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-right">
+                      <span className={corr.wasting_vs_avg > 0 ? 'text-red-600' : 'text-green-600'}>
+                        {corr.nfhs5_wasting}%
+                        <span className="text-xs ml-1">({corr.wasting_vs_avg > 0 ? '+' : ''}{corr.wasting_vs_avg.toFixed(1)})</span>
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        corr.priorityScore > 5 ? 'bg-red-200 text-red-800' :
+                        corr.priorityScore > 0 ? 'bg-yellow-200 text-yellow-800' :
+                        'bg-green-200 text-green-800'
+                      }`}>
+                        {corr.priorityScore > 5 ? 'High' : corr.priorityScore > 0 ? 'Medium' : 'Low'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Section>
+      )}
+
+      {/* District-Level Data (when state is selected) */}
+      {districtData && districtData.length > 0 && (
+        <Section title={`District-wise CRY Coverage in ${selectedState}`}>
+          <div className="mb-4 p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded">
+            <p className="text-sm text-gray-700">
+              <strong>District Breakdown:</strong> Showing CRY program reach across {districtData.length} districts in {selectedState}.
+            </p>
+          </div>
+
+          {/* District Bar Chart */}
+          {districtChartData.length > 0 && (
+            <ChartContainer>
+              <h3 className="text-lg font-semibold mb-4 text-center">
+                Children Enrolled by District - {selectedState}
+              </h3>
+              <GroupedBarChart
+                data={districtChartData}
+                xKey="district"
+                lines={[
+                  { key: 'Boys', name: 'Boys', color: '#6366f1' },
+                  { key: 'Girls', name: 'Girls', color: '#ec4899' },
+                ]}
+                title=""
+                height={420}
+              />
+            </ChartContainer>
+          )}
+
+          {/* District Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+            {districtData.map((d, idx) => (
+              <div key={idx} className="bg-white p-4 rounded-lg shadow border-l-4 border-blue-400">
+                <h4 className="font-semibold text-gray-900 mb-2">{d.district}</h4>
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div>
+                    <p className="text-xl font-bold text-blue-600">{d.totalChildren.toLocaleString()}</p>
+                    <p className="text-xs text-gray-500">Total</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-indigo-600">{d.boys.toLocaleString()}</p>
+                    <p className="text-xs text-gray-500">Boys</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-pink-600">{d.girls.toLocaleString()}</p>
+                    <p className="text-xs text-gray-500">Girls</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* Nutrition & Health Trends */}
       {nutritionAnalysis && (
         <>
-          <Section title="Child Nutrition & Health Trends by State (2023 vs 2024)">
-            <div className="mb-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
+          <Section title="Child Nutrition & Health by State (NFHS-5 Official Data)">
+            <div className="mb-4 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
               <p className="text-sm text-gray-700 mb-2">
-                <strong>Data Note:</strong> Nutrition metrics (underweight, stunting, wasting) are estimated using state-level aggregates. 
-                The charts display state-wise malnutrition trends based on child population distributions.
+                <strong>Data Source:</strong> {nutritionAnalysis.source}
+              </p>
+              <p className="text-sm text-gray-700 mb-2">
+                This chart shows <strong>official government nutrition data</strong> from the National Family Health Survey (NFHS-5) 
+                conducted in 2019-2021. The bars compare each state's values against India's national average.
               </p>
               <div className="text-sm text-gray-700 mt-2 space-y-1">
                 <p><strong>Key Terms:</strong></p>
                 <ul className="list-disc ml-5 space-y-1">
-                  <li><strong>Underweight:</strong> Low weight-for-age (indicates overall malnutrition)</li>
-                  <li><strong>Stunting:</strong> Low height-for-age (chronic malnutrition, affects growth)</li>
-                  <li><strong>Wasting:</strong> Low weight-for-height (acute malnutrition, immediate concern)</li>
+                  <li><strong>Underweight:</strong> Low weight-for-age (indicates overall malnutrition) - India Avg: {nutritionAnalysis.indiaAverage.underweight}%</li>
+                  <li><strong>Stunting:</strong> Low height-for-age (chronic malnutrition) - India Avg: {nutritionAnalysis.indiaAverage.stunting}%</li>
+                  <li><strong>Wasting:</strong> Low weight-for-height (acute malnutrition) - India Avg: {nutritionAnalysis.indiaAverage.wasting}%</li>
                 </ul>
               </div>
             </div>
             <div className="mb-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
               <p className="text-sm text-gray-700">
-                <strong>Insight:</strong> These charts show malnutrition trends by state. 
-                <span className="text-red-600 font-semibold"> Downward trends in malnutrition percentages are positive</span> (fewer underweight/stunted children).
-                Focus interventions on states where malnutrition increased or remained high.
+                <strong>How to Read:</strong> States where the "State Value" bar is <span className="text-green-600 font-semibold">lower than the India Average are performing better</span>.
+                States with <span className="text-red-600 font-semibold">higher values need more intervention</span>.
               </p>
             </div>
 
@@ -360,18 +574,18 @@ export const InsightsAndTrends: React.FC = () => {
 
             <ChartContainer>
               <h3 className="text-lg font-semibold mb-4 text-center capitalize">
-                {selectedMetric} % by State (Top 15 States)
+                {selectedMetric} % by State vs India Average (NFHS-5 Data)
               </h3>
               {nutritionChartData.length > 0 ? (
                 <GroupedBarChart
                   data={nutritionChartData}
                   xKey="location"
                   lines={[
-                    { key: '2023', name: '2023', color: '#f59e0b' },
-                    { key: '2024', name: '2024', color: '#10b981' },
+                    { key: '2023', name: 'India Average', color: '#6b7280' },
+                    { key: '2024', name: 'State Value', color: '#3b82f6' },
                   ]}
                   title=""
-                  height={400}
+                  height={450}
                 />
               ) : (
                 <p className="text-gray-500 text-center py-8">No nutrition data available</p>
@@ -383,7 +597,7 @@ export const InsightsAndTrends: React.FC = () => {
               <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
                 <h4 className="font-bold text-green-900 mb-3 flex items-center">
                   <TrendingDown className="mr-2" size={20} />
-                  Top 5 Improvements (Malnutrition Decreased)
+                  Top 5 Best Performing States (Below National Average)
                 </h4>
                 <div className="space-y-2">
                   {nutritionAnalysis.comparisons
@@ -394,12 +608,12 @@ export const InsightsAndTrends: React.FC = () => {
                       <div key={idx} className="flex justify-between items-center text-sm">
                         <span className="font-medium text-gray-800">{c.location}</span>
                         <span className="text-green-700 font-bold">
-                          {c.change.toFixed(1)}%
+                          {c.change.toFixed(1)}% below avg
                         </span>
                       </div>
                     ))}
                   {nutritionAnalysis.comparisons.filter((c: any) => c.metric === selectedMetric && c.change < 0).length === 0 && (
-                    <p className="text-sm text-gray-600 italic">No improvements detected</p>
+                    <p className="text-sm text-gray-600 italic">No states below national average</p>
                   )}
                 </div>
               </div>
@@ -407,7 +621,7 @@ export const InsightsAndTrends: React.FC = () => {
               <div className="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
                 <h4 className="font-bold text-red-900 mb-3 flex items-center">
                   <TrendingUp className="mr-2" size={20} />
-                  Top 5 Concerns (Malnutrition Increased)
+                  Top 5 States Needing Attention (Above National Average)
                 </h4>
                 <div className="space-y-2">
                   {nutritionAnalysis.comparisons
@@ -418,12 +632,12 @@ export const InsightsAndTrends: React.FC = () => {
                       <div key={idx} className="flex justify-between items-center text-sm">
                         <span className="font-medium text-gray-800">{c.location}</span>
                         <span className="text-red-700 font-bold">
-                          +{c.change.toFixed(1)}%
+                          +{c.change.toFixed(1)}% above avg
                         </span>
                       </div>
                     ))}
                   {nutritionAnalysis.comparisons.filter((c: any) => c.metric === selectedMetric && c.change > 0).length === 0 && (
-                    <p className="text-sm text-gray-600 italic">No concerns detected</p>
+                    <p className="text-sm text-gray-600 italic">No states above national average</p>
                   )}
                 </div>
               </div>
@@ -431,257 +645,6 @@ export const InsightsAndTrends: React.FC = () => {
           </Section>
         </>
       )}
-
-      {/* Performance Rankings */}
-      {performanceRankings && (
-        <Section title="State Performance Rankings (Education Enrollment)">
-          <div className="mb-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
-            <p className="text-sm text-gray-700">
-              <strong>Insight:</strong> These rankings show top and bottom performing states by total education enrollment. 
-              Celebrate and learn from top performers; allocate additional resources to states with lower enrollment.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Top Performers */}
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg shadow-md">
-              <h4 className="font-bold text-green-900 mb-4 text-xl flex items-center">
-                <Award className="mr-2 text-yellow-500" size={24} />
-                Top 10 States by Enrollment
-              </h4>
-              <div className="space-y-3">
-                {performanceRankings.top.map((perf: any, idx: number) => (
-                  <div key={idx} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm">
-                    <div className="flex items-center">
-                      <span className="font-medium text-gray-800">{perf.location}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-green-700 font-bold">{perf.value.toLocaleString()}</span>
-                      <p className="text-xs text-gray-500">Boys: {perf.boys.toLocaleString()} | Girls: {perf.girls.toLocaleString()}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Bottom Performers */}
-            <div className="bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-lg shadow-md">
-              <h4 className="font-bold text-red-900 mb-4 text-xl flex items-center">
-                <AlertCircle className="mr-2 text-red-500" size={24} />
-                Bottom 10 States (Need Support)
-              </h4>
-              <div className="space-y-3">
-                {performanceRankings.bottom.map((perf: any, idx: number) => (
-                  <div key={idx} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm">
-                    <div className="flex items-center">
-                      <span className="bg-red-600 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">
-                        {idx + 1}
-                      </span>
-                      <span className="font-medium text-gray-800">{perf.location}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-red-700 font-bold">{perf.value.toLocaleString()}</span>
-                      <p className="text-xs text-gray-500">Boys: {perf.boys.toLocaleString()} | Girls: {perf.girls.toLocaleString()}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Section>
-      )}
-
-      {/* Infrastructure Impact */}
-      {infrastructureAnalysis && infrastructureChartData.length > 0 && (
-        <Section title="Infrastructure Impact on Child Outcomes">
-          <div className="mb-4 p-4 bg-purple-50 border-l-4 border-purple-500 rounded">
-            <p className="text-sm text-gray-700">
-              <strong>Insight:</strong> This analysis shows the relationship between school infrastructure (toilets, water, electricity) 
-              and average attendance rates. <span className="font-semibold">Higher bars = Better outcomes.</span> Use this to justify infrastructure investments.
-            </p>
-          </div>
-
-          <ChartContainer>
-            <h3 className="text-lg font-semibold mb-4 text-center">
-              Average Attendance by Infrastructure Availability
-            </h3>
-            <GroupedBarChart
-              data={infrastructureChartData}
-              xKey="facility"
-              lines={[
-                { key: 'With Infrastructure', name: 'With Infra', color: '#10b981' },
-                { key: 'Without Infrastructure', name: 'Without Infra', color: '#ef4444' },
-              ]}
-              title=""
-              height={400}
-            />
-          </ChartContainer>
-
-          {/* Impact Summary */}
-          <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-            <h4 className="font-bold text-gray-900 mb-4">Infrastructure Impact Summary</h4>
-            <div className="space-y-3">
-              {infrastructureAnalysis.map((infra, idx) => {
-                const impactPercent = infra.impact.toFixed(1);
-                const isPositive = infra.impact > 0;
-                
-                return (
-                  <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                    <span className="font-medium text-gray-800">{infra.facility}</span>
-                    <div className="text-right">
-                      <span className={`font-bold ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                        {isPositive ? '+' : ''}{impactPercent}% impact
-                      </span>
-                      <p className="text-xs text-gray-600">
-                        ({infra.hasInfrastructure.count} with / {infra.noInfrastructure.count} without)
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </Section>
-      )}
-
-      {/* Equity Analysis */}
-      {equityAnalysis && equityAnalysis.length > 0 && (
-        <Section title="Equity Analysis: Rural vs Urban">
-          <div className="mb-4 p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded">
-            <p className="text-sm text-gray-700">
-              <strong>Insight:</strong> Compare rural and urban children's access to programs. 
-              Ensure gender balance (girls ~50%) and equitable coverage across geographic categories.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {equityAnalysis.map((equity, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
-                <h4 className="font-bold text-gray-900 mb-4 text-lg">{equity.category}</h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Total Children:</span>
-                    <span className="font-bold text-gray-900">{equity.totalChildren.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Boys:</span>
-                    <span className="font-bold text-blue-600">{equity.boys.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Girls:</span>
-                    <span className="font-bold text-pink-600">{equity.girls.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between pt-3 border-t border-gray-200">
-                    <span className="text-gray-600">Girls %:</span>
-                    <span className={`font-bold ${
-                      equity.genderRatio > 48 && equity.genderRatio < 52 ? 'text-green-600' : 'text-yellow-600'
-                    }`}>
-                      {equity.genderRatio.toFixed(1)}%
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* Recommendations */}
-      <Section title="Actionable Recommendations for Leadership">
-        <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Data-Driven Action Plan:</h3>
-          
-          {/* Key Statistics Summary */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-white rounded-lg">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-blue-600">977,875</p>
-              <p className="text-xs text-gray-600">Total Children Reached</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-green-600">80%</p>
-              <p className="text-xs text-gray-600">Rural Coverage</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-purple-600">48.5%</p>
-              <p className="text-xs text-gray-600">Girls Enrollment</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-orange-600">1,600</p>
-              <p className="text-xs text-gray-600">Schools Covered</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="font-bold text-green-800 mb-3 text-lg">Celebrate & Scale Successes</h4>
-              <ul className="text-sm text-gray-700 space-y-2">
-                <li><strong>Uttar Pradesh leads</strong> with 65,131 children enrolled - study and replicate their community engagement model</li>
-                <li><strong>Maharashtra (53,758)</strong> and <strong>Jharkhand (44,466)</strong> show strong performance - recognize field teams</li>
-                <li><strong>90% schools have toilets</strong> - celebrate infrastructure progress and share best practices</li>
-                <li><strong>Rural reach at 401,899 children</strong> (80% of total) - validates focus on underserved areas</li>
-              </ul>
-            </div>
-
-            <div className="bg-red-50 p-4 rounded-lg">
-              <h4 className="font-bold text-red-800 mb-3 text-lg">Priority Interventions Needed</h4>
-              <ul className="text-sm text-gray-700 space-y-2">
-                <li><strong>Manipur (710 children)</strong> - Urgent: Enrollment is critically low, investigate barriers</li>
-                <li><strong>Odisha (4,332)</strong> and <strong>Telangana (9,360)</strong> - Allocate additional resources and field staff</li>
-                <li><strong>145 schools lack drinking water</strong> - Prioritize water infrastructure in these schools</li>
-                <li><strong>118 schools without electricity</strong> - Partner with government schemes for electrification</li>
-              </ul>
-            </div>
-
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h4 className="font-bold text-blue-800 mb-3 text-lg">Monitor & Track (2024 vs 2023)</h4>
-              <ul className="text-sm text-gray-700 space-y-2">
-                <li><strong>Enrollment decreased by 7,910</strong> (241,075 to 233,165) - Investigate causes in affected regions</li>
-                <li><strong>Set quarterly enrollment targets</strong> for bottom 5 states to reach 15,000 each by year-end</li>
-                <li><strong>Track dropout rates monthly</strong> in states showing enrollment decline</li>
-                <li><strong>Infrastructure audit</strong> - Ensure 100% of schools have basic amenities by next quarter</li>
-              </ul>
-            </div>
-
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <h4 className="font-bold text-purple-800 mb-3 text-lg">Gender & Equity Focus</h4>
-              <ul className="text-sm text-gray-700 space-y-2">
-                <li><strong>Girls at 48.5%</strong> (230,280 of 474,240) - Close 1.5% gap to achieve gender parity</li>
-                <li><strong>2024 girls: 113,267 vs boys: 119,742</strong> - Target 6,475 additional girls enrollment</li>
-                <li><strong>Urban-Rural gap:</strong> Urban has 101,736 (20%) - Expand urban programs in underserved slums</li>
-                <li><strong>Separate girls' toilets in 84% schools</strong> - Prioritize remaining 16% to improve girls' retention</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Immediate Action Items */}
-          <div className="mt-6 p-4 bg-gray-100 border-l-4 border-gray-500 rounded-lg">
-            <h4 className="font-bold text-gray-900 mb-3 text-lg">Immediate Action Items for Leadership:</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="bg-green-50 p-3 rounded">
-                <p className="font-semibold text-green-800 mb-2">This Week:</p>
-                <ul className="list-disc ml-4 space-y-1 text-gray-700">
-                  <li>Call Manipur state team for status update</li>
-                  <li>Recognize top 3 performing states</li>
-                </ul>
-              </div>
-              <div className="bg-yellow-50 p-3 rounded">
-                <p className="font-semibold text-yellow-800 mb-2">This Month:</p>
-                <ul className="list-disc ml-4 space-y-1 text-gray-700">
-                  <li>Deploy additional staff to Odisha & Telangana</li>
-                  <li>Start water infrastructure in 50 priority schools</li>
-                </ul>
-              </div>
-              <div className="bg-red-50 p-3 rounded">
-                <p className="font-semibold text-red-800 mb-2">This Quarter:</p>
-                <ul className="list-disc ml-4 space-y-1 text-gray-700">
-                  <li>Achieve 50% girls enrollment in all states</li>
-                  <li>100% schools with basic infrastructure</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
     </div>
   );
 };

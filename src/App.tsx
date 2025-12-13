@@ -6,7 +6,7 @@ import { ChildAnnualDashboard } from './pages/ChildAnnualDashboard';
 import { ChildEducationDashboard } from './pages/ChildEducationDashboard';
 import { SchoolDashboard } from './pages/SchoolDashboard';
 import { AdvancedAnalytics } from './pages/AdvancedAnalytics';
-import { InsightsAndTrends } from './pages/InsightsAndTrends';
+import { VulnerabilityDashboard } from './pages/VulnerabilityDashboard';
 import { LoginPage } from './pages/LoginPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -63,9 +63,6 @@ function DashboardLayout() {
               <Link to="/" className={`px-4 py-2 rounded-md transition ${location.pathname === '/' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}`}>
                 Dashboard
               </Link>
-              <Link to="/insights" className={`px-4 py-2 rounded-md transition ${location.pathname === '/insights' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}`}>
-                Key Insights
-              </Link>
               <Link to="/anganwadi" className={`px-4 py-2 rounded-md transition ${location.pathname === '/anganwadi' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}`}>
                 Anganwadi
               </Link>
@@ -77,6 +74,9 @@ function DashboardLayout() {
               </Link>
               <Link to="/school" className={`px-4 py-2 rounded-md transition ${location.pathname === '/school' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}`}>
                 Schools
+              </Link>
+              <Link to="/vulnerability" className={`px-4 py-2 rounded-md transition ${location.pathname === '/vulnerability' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}`}>
+                Vulnerabilities
               </Link>
               <Link to="/advanced" className={`px-4 py-2 rounded-md transition ${location.pathname === '/advanced' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}`}>
                 Overall Analytics
@@ -131,13 +131,6 @@ function DashboardLayout() {
                 Dashboard
               </Link>
               <Link
-                to="/insights"
-                className={`block px-4 py-2 rounded transition ${location.pathname === '/insights' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:bg-yellow-50 hover:text-yellow-600'}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                Key Insights
-              </Link>
-              <Link
                 to="/anganwadi"
                 className={`block px-4 py-2 rounded transition ${location.pathname === '/anganwadi' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:bg-yellow-50 hover:text-yellow-600'}`}
                 onClick={() => setMenuOpen(false)}
@@ -164,6 +157,13 @@ function DashboardLayout() {
                 onClick={() => setMenuOpen(false)}
               >
                 Schools
+              </Link>
+              <Link
+                to="/vulnerability"
+                className={`block px-4 py-2 rounded transition ${location.pathname === '/vulnerability' ? 'text-yellow-600 font-semibold bg-yellow-50' : 'text-gray-700 hover:bg-yellow-50 hover:text-yellow-600'}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                Vulnerabilities
               </Link>
               <Link
                 to="/advanced"
@@ -204,11 +204,11 @@ function DashboardLayout() {
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<ProtectedRoute><MainDashboard /></ProtectedRoute>} />
-          <Route path="/insights" element={<ProtectedRoute><InsightsAndTrends /></ProtectedRoute>} />
           <Route path="/anganwadi" element={<ProtectedRoute><AnganwadiDashboard /></ProtectedRoute>} />
           <Route path="/child-annual" element={<ProtectedRoute><ChildAnnualDashboard /></ProtectedRoute>} />
           <Route path="/child-education" element={<ProtectedRoute><ChildEducationDashboard /></ProtectedRoute>} />
           <Route path="/school" element={<ProtectedRoute><SchoolDashboard /></ProtectedRoute>} />
+          <Route path="/vulnerability" element={<ProtectedRoute><VulnerabilityDashboard /></ProtectedRoute>} />
           <Route path="/advanced" element={<ProtectedRoute><AdvancedAnalytics /></ProtectedRoute>} />
         </Routes>
       </ErrorBoundary>

@@ -25,14 +25,15 @@
 
 ## Overview
 
-This dashboard provides comprehensive data visualization and analysis for CRY's child welfare programs across India. It processes and visualizes data from **360,000+ records** across multiple program areas:
+This dashboard provides comprehensive data visualization and analysis for CRY's child welfare programs across India. It processes and visualizes data from **1.4 million+ records** across multiple program areas:
 
-| Data Source | Records |
-|-------------|---------|
-| Child Annual Survey | 126,502 |
-| Child Education | 233,165 |
-| Anganwadi Centers | 2,013 |
-| Schools | 1,600 |
+| Data Source | Records | Description |
+|-------------|---------|-------------|
+| Child Annual Census | 503,635 | Demographics, health, and welfare tracking |
+| Child Education | 474,240 | Enrollment, attendance, dropout analysis |
+| Vulnerability Analysis | 475,286 | Protection risk scoring from labour/migration surveys |
+| Anganwadi Centers | 3,998 | Center infrastructure and nutrition services |
+| Schools | 3,255 | Infrastructure and teacher demographics |
 
 ---
 
@@ -43,14 +44,14 @@ This dashboard provides comprehensive data visualization and analysis for CRY's 
 | Module | Description |
 |--------|-------------|
 | **Main Dashboard** | Overview with KPIs, state-wise comparisons, and quick navigation |
-| **Key Insights** | AI-generated insights and strategic recommendations |
 | **Anganwadi Dashboard** | Center infrastructure, services, and nutrition analysis |
 | **Child Annual Dashboard** | Health, nutrition, age distribution, and welfare tracking |
 | **Child Education Dashboard** | Enrollment, attendance, dropout analysis |
 | **School Dashboard** | Infrastructure, teacher demographics, student-teacher ratios |
-| **Advanced Analytics** | 20 interactive Plotly.js visualizations with India map |
+| **Vulnerability Dashboard** | Protection risk scoring for Child Marriage, Child Labour, and Trafficking |
+| **Advanced Analytics** | 20+ interactive Plotly.js visualizations with India map + Key Insights |
 
-### 20 Advanced Analytics Charts
+### 20+ Advanced Analytics Charts
 
 1. **India Map** - Interactive choropleth with state-wise beneficiary distribution
 2. **Gender Distribution by State** - Boys vs Girls across top 20 states
@@ -72,6 +73,7 @@ This dashboard provides comprehensive data visualization and analysis for CRY's 
 18. **Rural-Urban Distribution** - Location-based facility analysis
 19. **District Coverage Heatmap** - Top districts by school coverage
 20. **School Category Distribution** - Government vs private schools
+21. **Protection Vulnerability Matrix** - Child Marriage, Labour, Trafficking risk analysis
 
 ### Key Capabilities
 
@@ -108,6 +110,60 @@ This dashboard provides comprehensive data visualization and analysis for CRY's 
 
 ---
 
+## Vulnerability Scoring Methodology
+
+The Vulnerability Dashboard calculates protection risk scores using CRY's **Protection Vulnerability Matrix**, analyzing data from Child Annual, Education, and Labour/Migration surveys.
+
+### Scoring Categories
+
+| Risk Level | Score Range | Description |
+|------------|-------------|-------------|
+| 🔴 High Risk | 50+ | Immediate intervention needed |
+| 🟠 Medium Risk | 25-49 | Close monitoring required |
+| 🟡 Low Risk | 10-24 | Basic support recommended |
+| 🟢 Minimal Risk | 0-9 | Continue preventive measures |
+
+### Child Marriage Score (Max: 75 points)
+
+| Factor | Points | Rationale |
+|--------|--------|-----------|
+| Out of school | 20 | Primary marriage risk indicator |
+| 2+ girls in household | 20 | Proxy for family history of CM/economic pressure |
+| Orphan status | 15 | Reduced parental protection |
+| Economic activity | 10 | Indicates family financial stress |
+| High CM state (NFHS-5) | 5 | States with >25% historical CM rates |
+| School irregularity | 5 | Early warning sign |
+
+### Child Labour Score (Max: 80 points)
+
+| Factor | Points | Rationale |
+|--------|--------|-----------|
+| Out of school | 15 | Highest CL correlation |
+| Economic activity | 15 | Direct labour indicator |
+| Out of school + Economic (combo) | 10 | Bonus for high-risk combination |
+| School irregularity | 10 | May indicate work interference |
+| Migrant status | 10 | Vulnerable to exploitation |
+| Orphan status | 10 | Economic vulnerability |
+| High CL state (NFHS-5) | 10 | States with high historical CL rates |
+
+### Trafficking Score (Max: 85 points)
+
+| Factor | Points | Rationale |
+|--------|--------|-----------|
+| Out of school + Economic activity | 25 | Primary trafficking indicator |
+| Migrant family | 20 | Mobile families at higher risk |
+| Orphan status | 20 | No parental oversight |
+| Trafficking hotspot state | 20 | Border/source states for trafficking |
+
+### Data Sources
+
+- **Child Annual Census**: Demographics, orphan status, health data
+- **Child Education**: Enrollment, attendance, dropout patterns
+- **Labour & Migration Survey**: Economic activity, migration status
+- **NFHS-5 (2019-21)**: State-level baseline rates for geographic risk factors
+
+---
+
 ## Quick Start
 
 ### Prerequisites
@@ -138,11 +194,14 @@ Open `http://localhost:5173` in your browser.
 cry-data-analysis/
 ├── public/
 │   ├── data/                         # JSON data files
-│   │   ├── advanced_analytics.json   # 20 Plotly charts data
+│   │   ├── advanced_analytics.json   # 20+ Plotly charts data
 │   │   ├── anganwadi_data.json
 │   │   ├── child_annual_data.json
 │   │   ├── child_education_data.json
-│   │   └── school_data.json
+│   │   ├── school_data.json
+│   │   ├── vulnerability_data.json   # Protection risk scores
+│   │   ├── nfhs5_data.json           # State baseline rates
+│   │   └── schema_analysis.json
 │   ├── india_states.geojson          # India map boundaries
 │   └── india_states_simplified.geojson
 ├── src/
@@ -156,14 +215,14 @@ cry-data-analysis/
 │   ├── hooks/
 │   │   └── useData.ts                # Data fetching hooks
 │   ├── pages/
-│   │   ├── AdvancedAnalytics.tsx     # 20 Plotly visualizations
+│   │   ├── AdvancedAnalytics.tsx     # 20+ Plotly visualizations + Insights
 │   │   ├── AnganwadiDashboard.tsx
 │   │   ├── ChildAnnualDashboard.tsx
 │   │   ├── ChildEducationDashboard.tsx
-│   │   ├── InsightsAndTrends.tsx     # Key insights page
 │   │   ├── LoginPage.tsx
 │   │   ├── MainDashboard.tsx
-│   │   └── SchoolDashboard.tsx
+│   │   ├── SchoolDashboard.tsx
+│   │   └── VulnerabilityDashboard.tsx # Protection risk analysis
 │   ├── utils/
 │   │   └── dataProcessor.ts          # Data utilities
 │   ├── App.tsx
@@ -172,15 +231,15 @@ cry-data-analysis/
 │   └── index.css
 ├── scripts/                          # Python data processing
 │   ├── generate_advanced_analytics.py
-│   ├── regenerate_json_data.py
+│   ├── generate_enhanced_vulnerability.py  # Protection Vulnerability Matrix scoring
 │   ├── analyze_trends.py
-│   └── analyze_excel_data.py
+│   ├── analyze_excel_data.py
+│   └── create_sampled_data.py
 ├── excel-data/                       # Source Excel files (gitignored)
 ├── index.html
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
-├── tailwind.config.js
 └── README.md
 ```
 
@@ -200,18 +259,22 @@ source .venv/bin/activate       # macOS/Linux
 pip install pandas plotly openpyxl numpy
 
 # Regenerate JSON data from Excel
-python scripts/regenerate_json_data.py
+python scripts/create_sampled_data.py
 
 # Generate advanced analytics charts
 python scripts/generate_advanced_analytics.py
+
+# Generate vulnerability scores (Protection Vulnerability Matrix)
+python scripts/generate_enhanced_vulnerability.py
 ```
 
 ### Source Excel Files
-The dashboard processes 8 Excel files (2023 and 2024 data):
+The dashboard processes Excel files from 2023 and 2024 data:
 - Anganwadi center information
-- Child annual information
+- Child annual information  
 - Child education data
 - School-level information
+- Child labour and migration surveys (for vulnerability scoring)
 
 ---
 
@@ -289,6 +352,7 @@ npm run preview    # Preview production build locally
 | Issue | Solution |
 |-------|----------|
 | Charts not loading | Run `python scripts/generate_advanced_analytics.py` |
+| Vulnerability showing 0 high-risk | Run `python scripts/generate_enhanced_vulnerability.py` |
 | Login not working | Clear browser sessionStorage |
 | Build errors | Delete `node_modules` and run `npm install` |
 | Port in use | Use `npm run dev -- --port 3000` |

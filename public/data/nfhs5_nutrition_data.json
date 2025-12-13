@@ -1,0 +1,197 @@
+{
+  "source": "National Family Health Survey (NFHS-5), 2019-2021, Ministry of Health and Family Welfare, Government of India",
+  "description": "State-wise nutrition indicators for children under 5 years of age",
+  "indicators": {
+    "stunting": "Low height-for-age (chronic malnutrition)",
+    "wasting": "Low weight-for-height (acute malnutrition)",
+    "underweight": "Low weight-for-age"
+  },
+  "notes": "All values are percentages. Data from NFHS-5 (2019-2021).",
+  "india_average": {
+    "stunting": 35.5,
+    "wasting": 19.3,
+    "underweight": 32.1
+  },
+  "state_data": {
+    "Andhra Pradesh": {
+      "stunting": 31.2,
+      "wasting": 16.1,
+      "underweight": 29.6
+    },
+    "Arunachal Pradesh": {
+      "stunting": 28.0,
+      "wasting": 9.3,
+      "underweight": 15.4
+    },
+    "Assam": {
+      "stunting": 35.3,
+      "wasting": 21.7,
+      "underweight": 32.8
+    },
+    "Bihar": {
+      "stunting": 42.9,
+      "wasting": 22.9,
+      "underweight": 41.0
+    },
+    "Chhattisgarh": {
+      "stunting": 34.6,
+      "wasting": 18.9,
+      "underweight": 31.3
+    },
+    "Goa": {
+      "stunting": 25.8,
+      "wasting": 10.3,
+      "underweight": 22.5
+    },
+    "Gujarat": {
+      "stunting": 39.0,
+      "wasting": 25.1,
+      "underweight": 39.7
+    },
+    "Haryana": {
+      "stunting": 27.5,
+      "wasting": 11.5,
+      "underweight": 21.5
+    },
+    "Himachal Pradesh": {
+      "stunting": 30.8,
+      "wasting": 17.4,
+      "underweight": 25.5
+    },
+    "Jharkhand": {
+      "stunting": 39.6,
+      "wasting": 22.4,
+      "underweight": 39.4
+    },
+    "Karnataka": {
+      "stunting": 35.4,
+      "wasting": 19.5,
+      "underweight": 32.9
+    },
+    "Kerala": {
+      "stunting": 23.4,
+      "wasting": 15.8,
+      "underweight": 19.7
+    },
+    "Madhya Pradesh": {
+      "stunting": 35.7,
+      "wasting": 18.9,
+      "underweight": 33.0
+    },
+    "Maharashtra": {
+      "stunting": 35.2,
+      "wasting": 25.6,
+      "underweight": 36.1
+    },
+    "Manipur": {
+      "stunting": 23.4,
+      "wasting": 6.5,
+      "underweight": 13.3
+    },
+    "Meghalaya": {
+      "stunting": 46.5,
+      "wasting": 14.6,
+      "underweight": 26.6
+    },
+    "Mizoram": {
+      "stunting": 28.9,
+      "wasting": 9.8,
+      "underweight": 12.0
+    },
+    "Nagaland": {
+      "stunting": 32.7,
+      "wasting": 11.6,
+      "underweight": 19.0
+    },
+    "Odisha": {
+      "stunting": 31.0,
+      "wasting": 18.1,
+      "underweight": 29.7
+    },
+    "Punjab": {
+      "stunting": 24.5,
+      "wasting": 10.6,
+      "underweight": 16.9
+    },
+    "Rajasthan": {
+      "stunting": 31.8,
+      "wasting": 16.8,
+      "underweight": 27.6
+    },
+    "Sikkim": {
+      "stunting": 22.3,
+      "wasting": 9.7,
+      "underweight": 13.7
+    },
+    "Tamil Nadu": {
+      "stunting": 25.0,
+      "wasting": 14.6,
+      "underweight": 22.1
+    },
+    "Telangana": {
+      "stunting": 33.1,
+      "wasting": 21.7,
+      "underweight": 31.8
+    },
+    "Tripura": {
+      "stunting": 32.3,
+      "wasting": 18.2,
+      "underweight": 25.6
+    },
+    "Uttar Pradesh": {
+      "stunting": 39.7,
+      "wasting": 17.3,
+      "underweight": 32.1
+    },
+    "Uttarakhand": {
+      "stunting": 27.0,
+      "wasting": 13.2,
+      "underweight": 21.7
+    },
+    "West Bengal": {
+      "stunting": 33.8,
+      "wasting": 20.3,
+      "underweight": 32.2
+    },
+    "Jammu and Kashmir": {
+      "stunting": 26.9,
+      "wasting": 19.0,
+      "underweight": 21.0
+    },
+    "Ladakh": {
+      "stunting": 31.5,
+      "wasting": 13.5,
+      "underweight": 17.3
+    },
+    "Delhi": {
+      "stunting": 32.3,
+      "wasting": 13.0,
+      "underweight": 23.0
+    },
+    "Chandigarh": {
+      "stunting": 24.7,
+      "wasting": 12.2,
+      "underweight": 19.8
+    },
+    "Puducherry": {
+      "stunting": 20.0,
+      "wasting": 14.1,
+      "underweight": 17.2
+    },
+    "Dadra and Nagar Haveli and Daman and Diu": {
+      "stunting": 38.8,
+      "wasting": 23.4,
+      "underweight": 38.5
+    },
+    "Andaman and Nicobar Islands": {
+      "stunting": 22.5,
+      "wasting": 12.4,
+      "underweight": 18.5
+    },
+    "Lakshadweep": {
+      "stunting": 26.8,
+      "wasting": 11.3,
+      "underweight": 16.4
+    }
+  }
+}

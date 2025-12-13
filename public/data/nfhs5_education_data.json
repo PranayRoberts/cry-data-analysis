@@ -1,0 +1,317 @@
+{
+  "source": "National Family Health Survey (NFHS-5), 2019-2021, Ministry of Health and Family Welfare, Government of India",
+  "description": "State-wise education, gender, and child development indicators",
+  "indicators": {
+    "school_attendance_6_17": "Percentage of children (age 6-17) attending school",
+    "literacy_women": "Female literacy rate (age 15-49)",
+    "literacy_men": "Male literacy rate (age 15-49)",
+    "sex_ratio_birth": "Sex ratio at birth (females per 1000 males)",
+    "children_under_5": "Percentage of children under 5 years registered at birth",
+    "institutional_births": "Percentage of institutional births",
+    "immunization_full": "Percentage of children (12-23 months) fully immunized",
+    "anemia_children": "Prevalence of anemia among children (6-59 months)"
+  },
+  "notes": "All values are percentages unless specified. Data from NFHS-5 (2019-2021).",
+  "india_average": {
+    "school_attendance_6_17": 79.1,
+    "literacy_women": 71.5,
+    "literacy_men": 84.4,
+    "sex_ratio_birth": 929,
+    "children_under_5": 89.3,
+    "institutional_births": 88.6,
+    "immunization_full": 76.4,
+    "anemia_children": 67.1
+  },
+  "state_data": {
+    "Andhra Pradesh": {
+      "school_attendance_6_17": 85.2,
+      "literacy_women": 66.4,
+      "literacy_men": 79.7,
+      "sex_ratio_birth": 919,
+      "children_under_5": 95.1,
+      "institutional_births": 96.4,
+      "immunization_full": 79.1,
+      "anemia_children": 63.2
+    },
+    "Arunachal Pradesh": {
+      "school_attendance_6_17": 81.3,
+      "literacy_women": 60.2,
+      "literacy_men": 72.3,
+      "sex_ratio_birth": 938,
+      "children_under_5": 68.2,
+      "institutional_births": 75.9,
+      "immunization_full": 58.0,
+      "anemia_children": 54.2
+    },
+    "Assam": {
+      "school_attendance_6_17": 82.4,
+      "literacy_women": 74.5,
+      "literacy_men": 83.6,
+      "sex_ratio_birth": 936,
+      "children_under_5": 93.8,
+      "institutional_births": 82.7,
+      "immunization_full": 66.4,
+      "anemia_children": 68.4
+    },
+    "Bihar": {
+      "school_attendance_6_17": 72.1,
+      "literacy_women": 55.7,
+      "literacy_men": 78.5,
+      "sex_ratio_birth": 908,
+      "children_under_5": 77.8,
+      "institutional_births": 76.2,
+      "immunization_full": 76.3,
+      "anemia_children": 69.4
+    },
+    "Chhattisgarh": {
+      "school_attendance_6_17": 79.8,
+      "literacy_women": 68.2,
+      "literacy_men": 83.8,
+      "sex_ratio_birth": 960,
+      "children_under_5": 92.8,
+      "institutional_births": 88.5,
+      "immunization_full": 82.1,
+      "anemia_children": 67.2
+    },
+    "Goa": {
+      "school_attendance_6_17": 93.2,
+      "literacy_women": 87.8,
+      "literacy_men": 93.4,
+      "sex_ratio_birth": 965,
+      "children_under_5": 99.2,
+      "institutional_births": 99.4,
+      "immunization_full": 88.2,
+      "anemia_children": 48.3
+    },
+    "Gujarat": {
+      "school_attendance_6_17": 81.6,
+      "literacy_women": 73.5,
+      "literacy_men": 88.1,
+      "sex_ratio_birth": 914,
+      "children_under_5": 97.8,
+      "institutional_births": 96.5,
+      "immunization_full": 76.3,
+      "anemia_children": 79.7
+    },
+    "Haryana": {
+      "school_attendance_6_17": 85.4,
+      "literacy_women": 76.3,
+      "literacy_men": 89.1,
+      "sex_ratio_birth": 861,
+      "children_under_5": 97.1,
+      "institutional_births": 93.2,
+      "immunization_full": 76.0,
+      "anemia_children": 70.4
+    },
+    "Himachal Pradesh": {
+      "school_attendance_6_17": 91.8,
+      "literacy_women": 82.4,
+      "literacy_men": 93.1,
+      "sex_ratio_birth": 875,
+      "children_under_5": 98.3,
+      "institutional_births": 93.4,
+      "immunization_full": 89.3,
+      "anemia_children": 53.7
+    },
+    "Jharkhand": {
+      "school_attendance_6_17": 74.3,
+      "literacy_women": 58.8,
+      "literacy_men": 80.6,
+      "sex_ratio_birth": 918,
+      "children_under_5": 80.4,
+      "institutional_births": 74.4,
+      "immunization_full": 76.5,
+      "anemia_children": 69.9
+    },
+    "Karnataka": {
+      "school_attendance_6_17": 85.7,
+      "literacy_women": 73.8,
+      "literacy_men": 86.4,
+      "sex_ratio_birth": 927,
+      "children_under_5": 98.2,
+      "institutional_births": 97.2,
+      "immunization_full": 84.1,
+      "anemia_children": 65.5
+    },
+    "Kerala": {
+      "school_attendance_6_17": 97.1,
+      "literacy_women": 96.8,
+      "literacy_men": 97.3,
+      "sex_ratio_birth": 951,
+      "children_under_5": 99.8,
+      "institutional_births": 99.9,
+      "immunization_full": 85.2,
+      "anemia_children": 39.4
+    },
+    "Madhya Pradesh": {
+      "school_attendance_6_17": 74.2,
+      "literacy_women": 59.7,
+      "literacy_men": 79.8,
+      "sex_ratio_birth": 934,
+      "children_under_5": 87.3,
+      "institutional_births": 90.0,
+      "immunization_full": 77.7,
+      "anemia_children": 72.7
+    },
+    "Maharashtra": {
+      "school_attendance_6_17": 87.3,
+      "literacy_women": 80.1,
+      "literacy_men": 91.3,
+      "sex_ratio_birth": 913,
+      "children_under_5": 97.8,
+      "institutional_births": 95.8,
+      "immunization_full": 79.9,
+      "anemia_children": 68.9
+    },
+    "Manipur": {
+      "school_attendance_6_17": 89.4,
+      "literacy_women": 79.3,
+      "literacy_men": 89.2,
+      "sex_ratio_birth": 962,
+      "children_under_5": 78.2,
+      "institutional_births": 80.8,
+      "immunization_full": 66.4,
+      "anemia_children": 41.9
+    },
+    "Meghalaya": {
+      "school_attendance_6_17": 78.6,
+      "literacy_women": 80.8,
+      "literacy_men": 78.1,
+      "sex_ratio_birth": 975,
+      "children_under_5": 85.7,
+      "institutional_births": 65.3,
+      "immunization_full": 54.0,
+      "anemia_children": 59.2
+    },
+    "Mizoram": {
+      "school_attendance_6_17": 92.3,
+      "literacy_women": 89.8,
+      "literacy_men": 94.2,
+      "sex_ratio_birth": 971,
+      "children_under_5": 92.8,
+      "institutional_births": 88.5,
+      "immunization_full": 56.1,
+      "anemia_children": 38.8
+    },
+    "Nagaland": {
+      "school_attendance_6_17": 86.5,
+      "literacy_women": 79.9,
+      "literacy_men": 86.1,
+      "sex_ratio_birth": 955,
+      "children_under_5": 76.3,
+      "institutional_births": 46.2,
+      "immunization_full": 42.2,
+      "anemia_children": 40.6
+    },
+    "Odisha": {
+      "school_attendance_6_17": 81.9,
+      "literacy_women": 68.5,
+      "literacy_men": 84.0,
+      "sex_ratio_birth": 951,
+      "children_under_5": 95.3,
+      "institutional_births": 91.5,
+      "immunization_full": 84.8,
+      "anemia_children": 64.2
+    },
+    "Punjab": {
+      "school_attendance_6_17": 89.3,
+      "literacy_women": 79.8,
+      "literacy_men": 87.4,
+      "sex_ratio_birth": 866,
+      "children_under_5": 98.8,
+      "institutional_births": 92.4,
+      "immunization_full": 90.5,
+      "anemia_children": 71.1
+    },
+    "Rajasthan": {
+      "school_attendance_6_17": 75.8,
+      "literacy_women": 55.9,
+      "literacy_men": 79.2,
+      "sex_ratio_birth": 882,
+      "children_under_5": 87.2,
+      "institutional_births": 95.0,
+      "immunization_full": 80.4,
+      "anemia_children": 71.5
+    },
+    "Sikkim": {
+      "school_attendance_6_17": 94.7,
+      "literacy_women": 80.2,
+      "literacy_men": 88.8,
+      "sex_ratio_birth": 952,
+      "children_under_5": 97.4,
+      "institutional_births": 96.4,
+      "immunization_full": 87.0,
+      "anemia_children": 42.3
+    },
+    "Tamil Nadu": {
+      "school_attendance_6_17": 91.2,
+      "literacy_women": 79.4,
+      "literacy_men": 90.0,
+      "sex_ratio_birth": 949,
+      "children_under_5": 99.4,
+      "institutional_births": 99.2,
+      "immunization_full": 80.7,
+      "anemia_children": 57.4
+    },
+    "Telangana": {
+      "school_attendance_6_17": 83.8,
+      "literacy_women": 66.1,
+      "literacy_men": 82.4,
+      "sex_ratio_birth": 921,
+      "children_under_5": 95.8,
+      "institutional_births": 97.3,
+      "immunization_full": 77.0,
+      "anemia_children": 70.0
+    },
+    "Tripura": {
+      "school_attendance_6_17": 86.1,
+      "literacy_women": 85.4,
+      "literacy_men": 93.1,
+      "sex_ratio_birth": 946,
+      "children_under_5": 96.5,
+      "institutional_births": 86.9,
+      "immunization_full": 70.1,
+      "anemia_children": 62.8
+    },
+    "Uttar Pradesh": {
+      "school_attendance_6_17": 73.5,
+      "literacy_women": 59.3,
+      "literacy_men": 81.4,
+      "sex_ratio_birth": 905,
+      "children_under_5": 81.2,
+      "institutional_births": 83.8,
+      "immunization_full": 75.3,
+      "anemia_children": 66.4
+    },
+    "Uttarakhand": {
+      "school_attendance_6_17": 86.2,
+      "literacy_women": 73.2,
+      "literacy_men": 89.6,
+      "sex_ratio_birth": 891,
+      "children_under_5": 96.0,
+      "institutional_births": 80.9,
+      "immunization_full": 83.2,
+      "anemia_children": 59.7
+    },
+    "West Bengal": {
+      "school_attendance_6_17": 81.7,
+      "literacy_women": 73.1,
+      "literacy_men": 83.1,
+      "sex_ratio_birth": 951,
+      "children_under_5": 96.3,
+      "institutional_births": 92.2,
+      "immunization_full": 84.4,
+      "anemia_children": 69.0
+    },
+    "Delhi": {
+      "school_attendance_6_17": 88.9,
+      "literacy_women": 85.2,
+      "literacy_men": 94.2,
+      "sex_ratio_birth": 880,
+      "children_under_5": 93.4,
+      "institutional_births": 89.9,
+      "immunization_full": 77.6,
+      "anemia_children": 63.5
+    }
+  }
+}

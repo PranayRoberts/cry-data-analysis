@@ -1,0 +1,1764 @@
+{
+  "metadata": {
+    "generated": "2025-12-11T18:08:08.233384",
+    "sources": {
+      "nfhs5": "National Family Health Survey 2019-2021",
+      "cry": "CRY Annual Data 2023-2024"
+    }
+  },
+  "stateList": [
+    "Andaman and Nicobar Islands",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Ladakh",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ],
+  "districtsByState": {
+    "Karnataka": [
+      "Bangalore North",
+      "Bangalore Urban",
+      "Belagavi",
+      "Kalaburagi",
+      "Kolar",
+      "Raichur"
+    ],
+    "Uttar Pradesh": [
+      "Bhadohi",
+      "Budaun",
+      "Chandauli",
+      "Gautam Buddha Nagar",
+      "Kaushambi",
+      "Lakhimpur Kheri",
+      "Lucknow",
+      "Prayagraj",
+      "Sonebhadra",
+      "VARANASI "
+    ],
+    "Haryana": [
+      "Faridabad",
+      "Gurugram",
+      "Panchkula"
+    ],
+    "Rajasthan": [
+      "Ajmer",
+      "Alwar",
+      "Baran",
+      "Bharatpur",
+      "Jaipur",
+      "Jodhpur",
+      "Kekri",
+      "Udaipur"
+    ],
+    "Madhya Pradesh": [
+      "Bhopal",
+      "Datia",
+      "Dewas",
+      "Guna",
+      "Harda",
+      "Indore",
+      "Raisen",
+      "Rajgarh",
+      "Rewa",
+      "Sagar",
+      "Satna",
+      "Shivpuri",
+      "Vidisha"
+    ],
+    "Chhattisgarh": [
+      "Bilaspur",
+      "Korba",
+      "Mahasamund",
+      "Surguja "
+    ],
+    "Maharashtra": [
+      "Ahmednagar",
+      "Gadchiroli",
+      "Latur",
+      "Mumbai",
+      "Nanded",
+      "Nandurbar",
+      "Osmanabad",
+      "Pune",
+      "Suburban Mumbai",
+      "Wardha"
+    ],
+    "Jharkhand": [
+      "East Singhbhum",
+      "Giridih",
+      "Koderma"
+    ],
+    "Jammu and Kashmir": [
+      "Bandipora",
+      "Baramullah",
+      "Budgam",
+      "Ganderbal"
+    ],
+    "Telangana": [
+      "Khamman",
+      "Medchal"
+    ],
+    "Bihar": [
+      "East Champaran",
+      "Samastipur ",
+      "West Champaran "
+    ],
+    "Manipur": [
+      "Chandel ",
+      "Imphal West",
+      "Tengnoupal"
+    ],
+    "Delhi": [
+      "East Delhi",
+      "North Delhi",
+      "North West Delhi",
+      "South Delhi",
+      "South East Delhi",
+      "South West Delhi",
+      "West Delhi"
+    ],
+    "Tamil Nadu": [
+      "Chennai",
+      "Dharmapuri",
+      "Ramanathapuram",
+      "Salem",
+      "Tenkasi",
+      "Tirunelveli"
+    ],
+    "Assam": [
+      "Barpeta",
+      "Dhubri",
+      "Kamrup (Rural)",
+      "Nalbari"
+    ],
+    "Odisha": [
+      "BARGARH",
+      "Balangir",
+      "KALAHANDI",
+      "Kandhamal",
+      "Koraput",
+      "Mayurbhanj"
+    ],
+    "West Bengal": [
+      "KOLKATA",
+      "Paschim Bardhaman",
+      "South 24 Parganas"
+    ],
+    "Gujarat": [
+      "Ahmedabad",
+      "Banaskantha",
+      "Devbhoomi Dwarka",
+      "Kutch",
+      "Narmada",
+      "Rajkot",
+      "Surat"
+    ],
+    "Andhra Pradesh": [
+      "Chittoor",
+      "D.BR. Ambedkar konseema",
+      "Krishna"
+    ]
+  },
+  "nfhs5": {
+    "indiaAverage": {
+      "stunting": 35.5,
+      "wasting": 19.3,
+      "underweight": 32.1
+    },
+    "stateData": {
+      "Andhra Pradesh": {
+        "stunting": 31.2,
+        "wasting": 16.1,
+        "underweight": 29.6
+      },
+      "Arunachal Pradesh": {
+        "stunting": 28.0,
+        "wasting": 9.3,
+        "underweight": 15.4
+      },
+      "Assam": {
+        "stunting": 35.3,
+        "wasting": 21.7,
+        "underweight": 32.8
+      },
+      "Bihar": {
+        "stunting": 42.9,
+        "wasting": 22.9,
+        "underweight": 41.0
+      },
+      "Chhattisgarh": {
+        "stunting": 34.6,
+        "wasting": 18.9,
+        "underweight": 31.3
+      },
+      "Goa": {
+        "stunting": 25.8,
+        "wasting": 10.3,
+        "underweight": 22.5
+      },
+      "Gujarat": {
+        "stunting": 39.0,
+        "wasting": 25.1,
+        "underweight": 39.7
+      },
+      "Haryana": {
+        "stunting": 27.5,
+        "wasting": 11.5,
+        "underweight": 21.5
+      },
+      "Himachal Pradesh": {
+        "stunting": 30.8,
+        "wasting": 17.4,
+        "underweight": 25.5
+      },
+      "Jharkhand": {
+        "stunting": 39.6,
+        "wasting": 22.4,
+        "underweight": 39.4
+      },
+      "Karnataka": {
+        "stunting": 35.4,
+        "wasting": 19.5,
+        "underweight": 32.9
+      },
+      "Kerala": {
+        "stunting": 23.4,
+        "wasting": 15.8,
+        "underweight": 19.7
+      },
+      "Madhya Pradesh": {
+        "stunting": 35.7,
+        "wasting": 18.9,
+        "underweight": 33.0
+      },
+      "Maharashtra": {
+        "stunting": 35.2,
+        "wasting": 25.6,
+        "underweight": 36.1
+      },
+      "Manipur": {
+        "stunting": 23.4,
+        "wasting": 6.5,
+        "underweight": 13.3
+      },
+      "Meghalaya": {
+        "stunting": 46.5,
+        "wasting": 14.6,
+        "underweight": 26.6
+      },
+      "Mizoram": {
+        "stunting": 28.9,
+        "wasting": 9.8,
+        "underweight": 12.0
+      },
+      "Nagaland": {
+        "stunting": 32.7,
+        "wasting": 11.6,
+        "underweight": 19.0
+      },
+      "Odisha": {
+        "stunting": 31.0,
+        "wasting": 18.1,
+        "underweight": 29.7
+      },
+      "Punjab": {
+        "stunting": 24.5,
+        "wasting": 10.6,
+        "underweight": 16.9
+      },
+      "Rajasthan": {
+        "stunting": 31.8,
+        "wasting": 16.8,
+        "underweight": 27.6
+      },
+      "Sikkim": {
+        "stunting": 22.3,
+        "wasting": 9.7,
+        "underweight": 13.7
+      },
+      "Tamil Nadu": {
+        "stunting": 25.0,
+        "wasting": 14.6,
+        "underweight": 22.1
+      },
+      "Telangana": {
+        "stunting": 33.1,
+        "wasting": 21.7,
+        "underweight": 31.8
+      },
+      "Tripura": {
+        "stunting": 32.3,
+        "wasting": 18.2,
+        "underweight": 25.6
+      },
+      "Uttar Pradesh": {
+        "stunting": 39.7,
+        "wasting": 17.3,
+        "underweight": 32.1
+      },
+      "Uttarakhand": {
+        "stunting": 27.0,
+        "wasting": 13.2,
+        "underweight": 21.7
+      },
+      "West Bengal": {
+        "stunting": 33.8,
+        "wasting": 20.3,
+        "underweight": 32.2
+      },
+      "Jammu and Kashmir": {
+        "stunting": 26.9,
+        "wasting": 19.0,
+        "underweight": 21.0
+      },
+      "Ladakh": {
+        "stunting": 31.5,
+        "wasting": 13.5,
+        "underweight": 17.3
+      },
+      "Delhi": {
+        "stunting": 32.3,
+        "wasting": 13.0,
+        "underweight": 23.0
+      },
+      "Chandigarh": {
+        "stunting": 24.7,
+        "wasting": 12.2,
+        "underweight": 19.8
+      },
+      "Puducherry": {
+        "stunting": 20.0,
+        "wasting": 14.1,
+        "underweight": 17.2
+      },
+      "Dadra and Nagar Haveli and Daman and Diu": {
+        "stunting": 38.8,
+        "wasting": 23.4,
+        "underweight": 38.5
+      },
+      "Andaman and Nicobar Islands": {
+        "stunting": 22.5,
+        "wasting": 12.4,
+        "underweight": 18.5
+      },
+      "Lakshadweep": {
+        "stunting": 26.8,
+        "wasting": 11.3,
+        "underweight": 16.4
+      }
+    }
+  },
+  "cryStateData": {
+    "Andhra Pradesh": {
+      "totalChildren": 20147,
+      "boys": 10295,
+      "girls": 9852,
+      "districts": {
+        "Chittoor": {
+          "totalChildren": 14133,
+          "boys": 7270,
+          "girls": 6863
+        },
+        "D.BR. Ambedkar konseema": {
+          "totalChildren": 4646,
+          "boys": 2341,
+          "girls": 2305
+        },
+        "Krishna": {
+          "totalChildren": 1368,
+          "boys": 684,
+          "girls": 684
+        }
+      }
+    },
+    "Assam": {
+      "totalChildren": 25396,
+      "boys": 13148,
+      "girls": 12244,
+      "districts": {
+        "Barpeta": {
+          "totalChildren": 7834,
+          "boys": 4182,
+          "girls": 3649
+        },
+        "Dhubri": {
+          "totalChildren": 9839,
+          "boys": 4959,
+          "girls": 4880
+        },
+        "Kamrup (Rural)": {
+          "totalChildren": 2549,
+          "boys": 1330,
+          "girls": 1219
+        },
+        "Nalbari": {
+          "totalChildren": 5174,
+          "boys": 2677,
+          "girls": 2496
+        }
+      }
+    },
+    "Bihar": {
+      "totalChildren": 32757,
+      "boys": 17162,
+      "girls": 15590,
+      "districts": {
+        "East Champaran": {
+          "totalChildren": 10598,
+          "boys": 5682,
+          "girls": 4916
+        },
+        "Samastipur ": {
+          "totalChildren": 11561,
+          "boys": 6077,
+          "girls": 5482
+        },
+        "West Champaran ": {
+          "totalChildren": 10598,
+          "boys": 5403,
+          "girls": 5192
+        }
+      }
+    },
+    "Chhattisgarh": {
+      "totalChildren": 18074,
+      "boys": 9015,
+      "girls": 9058,
+      "districts": {
+        "Bilaspur": {
+          "totalChildren": 3468,
+          "boys": 1694,
+          "girls": 1774
+        },
+        "Korba": {
+          "totalChildren": 2857,
+          "boys": 1406,
+          "girls": 1451
+        },
+        "Mahasamund": {
+          "totalChildren": 9011,
+          "boys": 4580,
+          "girls": 4431
+        },
+        "Surguja ": {
+          "totalChildren": 2738,
+          "boys": 1335,
+          "girls": 1402
+        }
+      }
+    },
+    "Delhi": {
+      "totalChildren": 19017,
+      "boys": 10025,
+      "girls": 8992,
+      "districts": {
+        "East Delhi": {
+          "totalChildren": 2216,
+          "boys": 1170,
+          "girls": 1046
+        },
+        "North Delhi": {
+          "totalChildren": 1405,
+          "boys": 758,
+          "girls": 647
+        },
+        "North West Delhi": {
+          "totalChildren": 9310,
+          "boys": 4893,
+          "girls": 4417
+        },
+        "South Delhi": {
+          "totalChildren": 1889,
+          "boys": 991,
+          "girls": 898
+        },
+        "South East Delhi": {
+          "totalChildren": 1265,
+          "boys": 648,
+          "girls": 617
+        },
+        "South West Delhi": {
+          "totalChildren": 1386,
+          "boys": 749,
+          "girls": 637
+        },
+        "West Delhi": {
+          "totalChildren": 1546,
+          "boys": 816,
+          "girls": 730
+        }
+      }
+    },
+    "Gujarat": {
+      "totalChildren": 24751,
+      "boys": 12715,
+      "girls": 11865,
+      "districts": {
+        "Ahmedabad": {
+          "totalChildren": 3744,
+          "boys": 1919,
+          "girls": 1825
+        },
+        "Banaskantha": {
+          "totalChildren": 2983,
+          "boys": 1463,
+          "girls": 1520
+        },
+        "Devbhoomi Dwarka": {
+          "totalChildren": 4052,
+          "boys": 2063,
+          "girls": 1821
+        },
+        "Kutch": {
+          "totalChildren": 3910,
+          "boys": 2005,
+          "girls": 1905
+        },
+        "Narmada": {
+          "totalChildren": 3863,
+          "boys": 2035,
+          "girls": 1827
+        },
+        "Rajkot": {
+          "totalChildren": 2575,
+          "boys": 1310,
+          "girls": 1263
+        },
+        "Surat": {
+          "totalChildren": 3624,
+          "boys": 1920,
+          "girls": 1704
+        }
+      }
+    },
+    "Haryana": {
+      "totalChildren": 14139,
+      "boys": 7331,
+      "girls": 6805,
+      "districts": {
+        "Faridabad": {
+          "totalChildren": 3880,
+          "boys": 2025,
+          "girls": 1854
+        },
+        "Gurugram": {
+          "totalChildren": 6988,
+          "boys": 3624,
+          "girls": 3364
+        },
+        "Panchkula": {
+          "totalChildren": 3271,
+          "boys": 1682,
+          "girls": 1587
+        }
+      }
+    },
+    "Jammu and Kashmir": {
+      "totalChildren": 23806,
+      "boys": 12326,
+      "girls": 11472,
+      "districts": {
+        "Bandipora": {
+          "totalChildren": 6394,
+          "boys": 3206,
+          "girls": 3188
+        },
+        "Baramullah": {
+          "totalChildren": 8120,
+          "boys": 4133,
+          "girls": 3983
+        },
+        "Budgam": {
+          "totalChildren": 4622,
+          "boys": 2653,
+          "girls": 1965
+        },
+        "Ganderbal": {
+          "totalChildren": 4670,
+          "boys": 2334,
+          "girls": 2336
+        }
+      }
+    },
+    "Jharkhand": {
+      "totalChildren": 32036,
+      "boys": 16847,
+      "girls": 15189,
+      "districts": {
+        "East Singhbhum": {
+          "totalChildren": 5516,
+          "boys": 2894,
+          "girls": 2622
+        },
+        "Giridih": {
+          "totalChildren": 16078,
+          "boys": 8329,
+          "girls": 7749
+        },
+        "Koderma": {
+          "totalChildren": 10442,
+          "boys": 5624,
+          "girls": 4818
+        }
+      }
+    },
+    "Karnataka": {
+      "totalChildren": 20298,
+      "boys": 10337,
+      "girls": 9960,
+      "districts": {
+        "Bangalore North": {
+          "totalChildren": 2039,
+          "boys": 1042,
+          "girls": 997
+        },
+        "Bangalore Urban": {
+          "totalChildren": 334,
+          "boys": 159,
+          "girls": 175
+        },
+        "Belagavi": {
+          "totalChildren": 2548,
+          "boys": 1265,
+          "girls": 1283
+        },
+        "Kalaburagi": {
+          "totalChildren": 2248,
+          "boys": 1139,
+          "girls": 1108
+        },
+        "Kolar": {
+          "totalChildren": 1810,
+          "boys": 881,
+          "girls": 929
+        },
+        "Raichur": {
+          "totalChildren": 11319,
+          "boys": 5851,
+          "girls": 5468
+        }
+      }
+    },
+    "Madhya Pradesh": {
+      "totalChildren": 21534,
+      "boys": 11280,
+      "girls": 10249,
+      "districts": {
+        "Bhopal": {
+          "totalChildren": 5747,
+          "boys": 2989,
+          "girls": 2758
+        },
+        "Datia": {
+          "totalChildren": 53,
+          "boys": 23,
+          "girls": 30
+        },
+        "Dewas": {
+          "totalChildren": 805,
+          "boys": 433,
+          "girls": 372
+        },
+        "Guna": {
+          "totalChildren": 918,
+          "boys": 497,
+          "girls": 421
+        },
+        "Harda": {
+          "totalChildren": 1611,
+          "boys": 900,
+          "girls": 711
+        },
+        "Indore": {
+          "totalChildren": 4300,
+          "boys": 2230,
+          "girls": 2069
+        },
+        "Raisen": {
+          "totalChildren": 275,
+          "boys": 139,
+          "girls": 135
+        },
+        "Rajgarh": {
+          "totalChildren": 229,
+          "boys": 109,
+          "girls": 120
+        },
+        "Rewa": {
+          "totalChildren": 1,
+          "boys": 1,
+          "girls": 0
+        },
+        "Sagar": {
+          "totalChildren": 831,
+          "boys": 424,
+          "girls": 407
+        },
+        "Satna": {
+          "totalChildren": 845,
+          "boys": 457,
+          "girls": 387
+        },
+        "Shivpuri": {
+          "totalChildren": 3625,
+          "boys": 1894,
+          "girls": 1729
+        },
+        "Vidisha": {
+          "totalChildren": 2294,
+          "boys": 1184,
+          "girls": 1110
+        }
+      }
+    },
+    "Maharashtra": {
+      "totalChildren": 55695,
+      "boys": 27594,
+      "girls": 28098,
+      "districts": {
+        "Ahmednagar": {
+          "totalChildren": 4040,
+          "boys": 2079,
+          "girls": 1961
+        },
+        "Gadchiroli": {
+          "totalChildren": 1860,
+          "boys": 701,
+          "girls": 1159
+        },
+        "Latur": {
+          "totalChildren": 12118,
+          "boys": 5812,
+          "girls": 6303
+        },
+        "Mumbai": {
+          "totalChildren": 1935,
+          "boys": 1018,
+          "girls": 917
+        },
+        "Nanded": {
+          "totalChildren": 1237,
+          "boys": 612,
+          "girls": 625
+        },
+        "Nandurbar": {
+          "totalChildren": 15072,
+          "boys": 7706,
+          "girls": 7366
+        },
+        "Osmanabad": {
+          "totalChildren": 4294,
+          "boys": 2072,
+          "girls": 2222
+        },
+        "Pune": {
+          "totalChildren": 1966,
+          "boys": 1029,
+          "girls": 937
+        },
+        "Suburban Mumbai": {
+          "totalChildren": 9272,
+          "boys": 4623,
+          "girls": 4649
+        },
+        "Wardha": {
+          "totalChildren": 3901,
+          "boys": 1942,
+          "girls": 1959
+        }
+      }
+    },
+    "Manipur": {
+      "totalChildren": 3058,
+      "boys": 1548,
+      "girls": 1510,
+      "districts": {
+        "Chandel ": {
+          "totalChildren": 280,
+          "boys": 165,
+          "girls": 115
+        },
+        "Imphal West": {
+          "totalChildren": 1961,
+          "boys": 980,
+          "girls": 981
+        },
+        "Tengnoupal": {
+          "totalChildren": 817,
+          "boys": 403,
+          "girls": 414
+        }
+      }
+    },
+    "Odisha": {
+      "totalChildren": 19586,
+      "boys": 10052,
+      "girls": 9529,
+      "districts": {
+        "BARGARH": {
+          "totalChildren": 3744,
+          "boys": 1917,
+          "girls": 1826
+        },
+        "Balangir": {
+          "totalChildren": 1804,
+          "boys": 927,
+          "girls": 877
+        },
+        "KALAHANDI": {
+          "totalChildren": 3922,
+          "boys": 2007,
+          "girls": 1914
+        },
+        "Kandhamal": {
+          "totalChildren": 3104,
+          "boys": 1583,
+          "girls": 1520
+        },
+        "Koraput": {
+          "totalChildren": 3986,
+          "boys": 2072,
+          "girls": 1912
+        },
+        "Mayurbhanj": {
+          "totalChildren": 3026,
+          "boys": 1546,
+          "girls": 1480
+        }
+      }
+    },
+    "Rajasthan": {
+      "totalChildren": 30759,
+      "boys": 16227,
+      "girls": 14523,
+      "districts": {
+        "Ajmer": {
+          "totalChildren": 3137,
+          "boys": 1629,
+          "girls": 1506
+        },
+        "Alwar": {
+          "totalChildren": 5126,
+          "boys": 2738,
+          "girls": 2387
+        },
+        "Baran": {
+          "totalChildren": 5121,
+          "boys": 2738,
+          "girls": 2381
+        },
+        "Bharatpur": {
+          "totalChildren": 7957,
+          "boys": 4240,
+          "girls": 3713
+        },
+        "Jaipur": {
+          "totalChildren": 2545,
+          "boys": 1333,
+          "girls": 1212
+        },
+        "Jodhpur": {
+          "totalChildren": 2,
+          "boys": 2,
+          "girls": 0
+        },
+        "Kekri": {
+          "totalChildren": 1682,
+          "boys": 883,
+          "girls": 799
+        },
+        "Udaipur": {
+          "totalChildren": 5189,
+          "boys": 2664,
+          "girls": 2525
+        }
+      }
+    },
+    "Tamil Nadu": {
+      "totalChildren": 21695,
+      "boys": 10637,
+      "girls": 11048,
+      "districts": {
+        "Chennai": {
+          "totalChildren": 510,
+          "boys": 258,
+          "girls": 247
+        },
+        "Dharmapuri": {
+          "totalChildren": 3231,
+          "boys": 1477,
+          "girls": 1751
+        },
+        "Ramanathapuram": {
+          "totalChildren": 7213,
+          "boys": 3547,
+          "girls": 3666
+        },
+        "Salem": {
+          "totalChildren": 4386,
+          "boys": 2081,
+          "girls": 2305
+        },
+        "Tenkasi": {
+          "totalChildren": 29,
+          "boys": 18,
+          "girls": 11
+        },
+        "Tirunelveli": {
+          "totalChildren": 6326,
+          "boys": 3256,
+          "girls": 3068
+        }
+      }
+    },
+    "Telangana": {
+      "totalChildren": 7567,
+      "boys": 3914,
+      "girls": 3653,
+      "districts": {
+        "Khamman": {
+          "totalChildren": 6116,
+          "boys": 3161,
+          "girls": 2955
+        },
+        "Medchal": {
+          "totalChildren": 1451,
+          "boys": 753,
+          "girls": 698
+        }
+      }
+    },
+    "Uttar Pradesh": {
+      "totalChildren": 104309,
+      "boys": 54317,
+      "girls": 49979,
+      "districts": {
+        "Bhadohi": {
+          "totalChildren": 3252,
+          "boys": 1643,
+          "girls": 1609
+        },
+        "Budaun": {
+          "totalChildren": 19669,
+          "boys": 10399,
+          "girls": 9270
+        },
+        "Chandauli": {
+          "totalChildren": 5895,
+          "boys": 3095,
+          "girls": 2796
+        },
+        "Gautam Buddha Nagar": {
+          "totalChildren": 2849,
+          "boys": 1454,
+          "girls": 1395
+        },
+        "Kaushambi": {
+          "totalChildren": 28339,
+          "boys": 14960,
+          "girls": 13377
+        },
+        "Lakhimpur Kheri": {
+          "totalChildren": 12558,
+          "boys": 6443,
+          "girls": 6113
+        },
+        "Lucknow": {
+          "totalChildren": 6370,
+          "boys": 3257,
+          "girls": 3110
+        },
+        "Prayagraj": {
+          "totalChildren": 4536,
+          "boys": 2260,
+          "girls": 2276
+        },
+        "Sonebhadra": {
+          "totalChildren": 8247,
+          "boys": 4330,
+          "girls": 3915
+        },
+        "VARANASI ": {
+          "totalChildren": 12594,
+          "boys": 6476,
+          "girls": 6118
+        }
+      }
+    },
+    "West Bengal": {
+      "totalChildren": 9011,
+      "boys": 4590,
+      "girls": 4421,
+      "districts": {
+        "KOLKATA": {
+          "totalChildren": 1752,
+          "boys": 865,
+          "girls": 887
+        },
+        "Paschim Bardhaman": {
+          "totalChildren": 662,
+          "boys": 298,
+          "girls": 364
+        },
+        "South 24 Parganas": {
+          "totalChildren": 6597,
+          "boys": 3427,
+          "girls": 3170
+        }
+      }
+    }
+  },
+  "educationByState": {
+    "Andhra Pradesh": {
+      "totalRecords": 34163,
+      "districts": {
+        "Annamayya": {
+          "totalRecords": 413
+        },
+        "Chittoor": {
+          "totalRecords": 23168
+        },
+        "D.BR. Ambedkar konseema": {
+          "totalRecords": 6325
+        },
+        "Krishna": {
+          "totalRecords": 4257
+        }
+      }
+    },
+    "Assam": {
+      "totalRecords": 16740,
+      "districts": {
+        "Dhubri": {
+          "totalRecords": 12268
+        },
+        "Kamrup (Rural)": {
+          "totalRecords": 4458
+        },
+        "Nalbari": {
+          "totalRecords": 14
+        }
+      }
+    },
+    "Bihar": {
+      "totalRecords": 25164,
+      "districts": {
+        "Samastipur ": {
+          "totalRecords": 10424
+        },
+        "West Champaran ": {
+          "totalRecords": 14740
+        }
+      }
+    },
+    "Chhattisgarh": {
+      "totalRecords": 17408,
+      "districts": {
+        "Bilaspur": {
+          "totalRecords": 3684
+        },
+        "Korba": {
+          "totalRecords": 2844
+        },
+        "Mahasamund": {
+          "totalRecords": 7370
+        },
+        "Surguja ": {
+          "totalRecords": 3510
+        }
+      }
+    },
+    "Delhi": {
+      "totalRecords": 15584,
+      "districts": {
+        "East Delhi": {
+          "totalRecords": 1694
+        },
+        "North Delhi": {
+          "totalRecords": 1713
+        },
+        "North West Delhi": {
+          "totalRecords": 8712
+        },
+        "South Delhi": {
+          "totalRecords": 481
+        },
+        "South West Delhi": {
+          "totalRecords": 1688
+        },
+        "West Delhi": {
+          "totalRecords": 1296
+        }
+      }
+    },
+    "Gujarat": {
+      "totalRecords": 15662,
+      "districts": {
+        "Ahmedabad": {
+          "totalRecords": 3248
+        },
+        "Devbhoomi Dwarka": {
+          "totalRecords": 4458
+        },
+        "Rajkot": {
+          "totalRecords": 4508
+        },
+        "Surat": {
+          "totalRecords": 3448
+        }
+      }
+    },
+    "Haryana": {
+      "totalRecords": 17312,
+      "districts": {
+        "Faridabad": {
+          "totalRecords": 5036
+        },
+        "Gurugram": {
+          "totalRecords": 8682
+        },
+        "Panchkula": {
+          "totalRecords": 3594
+        }
+      }
+    },
+    "Jammu and Kashmir": {
+      "totalRecords": 30996,
+      "districts": {
+        "Bandipora": {
+          "totalRecords": 9716
+        },
+        "Baramullah": {
+          "totalRecords": 9935
+        },
+        "Budgam": {
+          "totalRecords": 5436
+        },
+        "Ganderbal": {
+          "totalRecords": 5909
+        }
+      }
+    },
+    "Jharkhand": {
+      "totalRecords": 44466,
+      "districts": {
+        "East Singhbhum": {
+          "totalRecords": 6230
+        },
+        "Giridih": {
+          "totalRecords": 26662
+        },
+        "Koderma": {
+          "totalRecords": 11574
+        }
+      }
+    },
+    "Karnataka": {
+      "totalRecords": 20743,
+      "districts": {
+        "Bangalore North": {
+          "totalRecords": 1305
+        },
+        "Bangalore Urban": {
+          "totalRecords": 1164
+        },
+        "Belagavi": {
+          "totalRecords": 4417
+        },
+        "Kalaburagi": {
+          "totalRecords": 1900
+        },
+        "Raichur": {
+          "totalRecords": 11957
+        }
+      }
+    },
+    "Madhya Pradesh": {
+      "totalRecords": 13611,
+      "districts": {
+        "Betul": {
+          "totalRecords": 130
+        },
+        "Bhopal": {
+          "totalRecords": 1516
+        },
+        "Dewas": {
+          "totalRecords": 1154
+        },
+        "Guna": {
+          "totalRecords": 856
+        },
+        "Indore": {
+          "totalRecords": 6946
+        },
+        "Raisen": {
+          "totalRecords": 4
+        },
+        "Rajgarh": {
+          "totalRecords": 177
+        },
+        "Sagar": {
+          "totalRecords": 854
+        },
+        "Vidisha": {
+          "totalRecords": 1974
+        }
+      }
+    },
+    "Maharashtra": {
+      "totalRecords": 64208,
+      "districts": {
+        "Ahmednagar": {
+          "totalRecords": 4720
+        },
+        "Latur": {
+          "totalRecords": 18408
+        },
+        "Nanded": {
+          "totalRecords": 2862
+        },
+        "Nandurbar": {
+          "totalRecords": 16654
+        },
+        "Osmanabad": {
+          "totalRecords": 5262
+        },
+        "Pune": {
+          "totalRecords": 2010
+        },
+        "Suburban Mumbai": {
+          "totalRecords": 10450
+        },
+        "Wardha": {
+          "totalRecords": 3842
+        }
+      }
+    },
+    "Manipur": {
+      "totalRecords": 710,
+      "districts": {
+        "Imphal West": {
+          "totalRecords": 710
+        }
+      }
+    },
+    "Odisha": {
+      "totalRecords": 4332,
+      "districts": {
+        "Mayurbhanj": {
+          "totalRecords": 4332
+        }
+      }
+    },
+    "Rajasthan": {
+      "totalRecords": 38378,
+      "districts": {
+        "Ajmer": {
+          "totalRecords": 4641
+        },
+        "Alwar": {
+          "totalRecords": 6739
+        },
+        "Baran": {
+          "totalRecords": 4179
+        },
+        "Bharatpur": {
+          "totalRecords": 9641
+        },
+        "Jaipur": {
+          "totalRecords": 2353
+        },
+        "Kekri": {
+          "totalRecords": 2275
+        },
+        "Udaipur": {
+          "totalRecords": 8550
+        }
+      }
+    },
+    "Tamil Nadu": {
+      "totalRecords": 27800,
+      "districts": {
+        "Chennai": {
+          "totalRecords": 4790
+        },
+        "Dharmapuri": {
+          "totalRecords": 2600
+        },
+        "Ramanathapuram": {
+          "totalRecords": 7016
+        },
+        "Salem": {
+          "totalRecords": 6299
+        },
+        "Tenkasi": {
+          "totalRecords": 237
+        },
+        "Tirunelveli": {
+          "totalRecords": 5933
+        },
+        "Tuticorin": {
+          "totalRecords": 925
+        }
+      }
+    },
+    "Telangana": {
+      "totalRecords": 9360,
+      "districts": {
+        "Khamman": {
+          "totalRecords": 6979
+        },
+        "Medchal": {
+          "totalRecords": 2381
+        }
+      }
+    },
+    "Uttar Pradesh": {
+      "totalRecords": 65131,
+      "districts": {
+        "Bhadohi": {
+          "totalRecords": 2826
+        },
+        "Budaun": {
+          "totalRecords": 18104
+        },
+        "Firozabad": {
+          "totalRecords": 1
+        },
+        "Gautam Buddha Nagar": {
+          "totalRecords": 4022
+        },
+        "Lakhimpur Kheri": {
+          "totalRecords": 19455
+        },
+        "Lucknow": {
+          "totalRecords": 7369
+        },
+        "Prayagraj": {
+          "totalRecords": 4032
+        },
+        "VARANASI ": {
+          "totalRecords": 9322
+        }
+      }
+    },
+    "West Bengal": {
+      "totalRecords": 12472,
+      "districts": {
+        "KOLKATA": {
+          "totalRecords": 2498
+        },
+        "Paschim Bardhaman": {
+          "totalRecords": 1206
+        },
+        "South 24 Parganas": {
+          "totalRecords": 8768
+        }
+      }
+    }
+  },
+  "protectionByState": {},
+  "stateCorrelations": [
+    {
+      "state": "Andhra Pradesh",
+      "cryChildren": 20147,
+      "cryBoys": 10295,
+      "cryGirls": 9852,
+      "nfhs5_underweight": 29.6,
+      "nfhs5_stunting": 31.2,
+      "nfhs5_wasting": 16.1,
+      "underweight_vs_avg": -2.5,
+      "stunting_vs_avg": -4.300000000000001,
+      "wasting_vs_avg": -3.1999999999999993,
+      "districts": [
+        "Chittoor",
+        "D.BR. Ambedkar konseema",
+        "Krishna"
+      ]
+    },
+    {
+      "state": "Assam",
+      "cryChildren": 25396,
+      "cryBoys": 13148,
+      "cryGirls": 12244,
+      "nfhs5_underweight": 32.8,
+      "nfhs5_stunting": 35.3,
+      "nfhs5_wasting": 21.7,
+      "underweight_vs_avg": 0.6999999999999957,
+      "stunting_vs_avg": -0.20000000000000284,
+      "wasting_vs_avg": 2.3999999999999986,
+      "districts": [
+        "Barpeta",
+        "Dhubri",
+        "Kamrup (Rural)",
+        "Nalbari"
+      ]
+    },
+    {
+      "state": "Bihar",
+      "cryChildren": 32757,
+      "cryBoys": 17162,
+      "cryGirls": 15590,
+      "nfhs5_underweight": 41.0,
+      "nfhs5_stunting": 42.9,
+      "nfhs5_wasting": 22.9,
+      "underweight_vs_avg": 8.899999999999999,
+      "stunting_vs_avg": 7.399999999999999,
+      "wasting_vs_avg": 3.599999999999998,
+      "districts": [
+        "East Champaran",
+        "Samastipur ",
+        "West Champaran "
+      ]
+    },
+    {
+      "state": "Chhattisgarh",
+      "cryChildren": 18074,
+      "cryBoys": 9015,
+      "cryGirls": 9058,
+      "nfhs5_underweight": 31.3,
+      "nfhs5_stunting": 34.6,
+      "nfhs5_wasting": 18.9,
+      "underweight_vs_avg": -0.8000000000000007,
+      "stunting_vs_avg": -0.8999999999999986,
+      "wasting_vs_avg": -0.40000000000000213,
+      "districts": [
+        "Bilaspur",
+        "Korba",
+        "Mahasamund",
+        "Surguja "
+      ]
+    },
+    {
+      "state": "Delhi",
+      "cryChildren": 19017,
+      "cryBoys": 10025,
+      "cryGirls": 8992,
+      "nfhs5_underweight": 23.0,
+      "nfhs5_stunting": 32.3,
+      "nfhs5_wasting": 13.0,
+      "underweight_vs_avg": -9.100000000000001,
+      "stunting_vs_avg": -3.200000000000003,
+      "wasting_vs_avg": -6.300000000000001,
+      "districts": [
+        "East Delhi",
+        "North Delhi",
+        "North West Delhi",
+        "South Delhi",
+        "South East Delhi",
+        "South West Delhi",
+        "West Delhi"
+      ]
+    },
+    {
+      "state": "Gujarat",
+      "cryChildren": 24751,
+      "cryBoys": 12715,
+      "cryGirls": 11865,
+      "nfhs5_underweight": 39.7,
+      "nfhs5_stunting": 39.0,
+      "nfhs5_wasting": 25.1,
+      "underweight_vs_avg": 7.600000000000001,
+      "stunting_vs_avg": 3.5,
+      "wasting_vs_avg": 5.800000000000001,
+      "districts": [
+        "Ahmedabad",
+        "Banaskantha",
+        "Devbhoomi Dwarka",
+        "Kutch",
+        "Narmada",
+        "Rajkot",
+        "Surat"
+      ]
+    },
+    {
+      "state": "Haryana",
+      "cryChildren": 14139,
+      "cryBoys": 7331,
+      "cryGirls": 6805,
+      "nfhs5_underweight": 21.5,
+      "nfhs5_stunting": 27.5,
+      "nfhs5_wasting": 11.5,
+      "underweight_vs_avg": -10.600000000000001,
+      "stunting_vs_avg": -8.0,
+      "wasting_vs_avg": -7.800000000000001,
+      "districts": [
+        "Faridabad",
+        "Gurugram",
+        "Panchkula"
+      ]
+    },
+    {
+      "state": "Jammu and Kashmir",
+      "cryChildren": 23806,
+      "cryBoys": 12326,
+      "cryGirls": 11472,
+      "nfhs5_underweight": 21.0,
+      "nfhs5_stunting": 26.9,
+      "nfhs5_wasting": 19.0,
+      "underweight_vs_avg": -11.100000000000001,
+      "stunting_vs_avg": -8.600000000000001,
+      "wasting_vs_avg": -0.3000000000000007,
+      "districts": [
+        "Bandipora",
+        "Baramullah",
+        "Budgam",
+        "Ganderbal"
+      ]
+    },
+    {
+      "state": "Jharkhand",
+      "cryChildren": 32036,
+      "cryBoys": 16847,
+      "cryGirls": 15189,
+      "nfhs5_underweight": 39.4,
+      "nfhs5_stunting": 39.6,
+      "nfhs5_wasting": 22.4,
+      "underweight_vs_avg": 7.299999999999997,
+      "stunting_vs_avg": 4.100000000000001,
+      "wasting_vs_avg": 3.099999999999998,
+      "districts": [
+        "East Singhbhum",
+        "Giridih",
+        "Koderma"
+      ]
+    },
+    {
+      "state": "Karnataka",
+      "cryChildren": 20298,
+      "cryBoys": 10337,
+      "cryGirls": 9960,
+      "nfhs5_underweight": 32.9,
+      "nfhs5_stunting": 35.4,
+      "nfhs5_wasting": 19.5,
+      "underweight_vs_avg": 0.7999999999999972,
+      "stunting_vs_avg": -0.10000000000000142,
+      "wasting_vs_avg": 0.1999999999999993,
+      "districts": [
+        "Bangalore North",
+        "Bangalore Urban",
+        "Belagavi",
+        "Kalaburagi",
+        "Kolar",
+        "Raichur"
+      ]
+    },
+    {
+      "state": "Madhya Pradesh",
+      "cryChildren": 21534,
+      "cryBoys": 11280,
+      "cryGirls": 10249,
+      "nfhs5_underweight": 33.0,
+      "nfhs5_stunting": 35.7,
+      "nfhs5_wasting": 18.9,
+      "underweight_vs_avg": 0.8999999999999986,
+      "stunting_vs_avg": 0.20000000000000284,
+      "wasting_vs_avg": -0.40000000000000213,
+      "districts": [
+        "Bhopal",
+        "Datia",
+        "Dewas",
+        "Guna",
+        "Harda",
+        "Indore",
+        "Raisen",
+        "Rajgarh",
+        "Rewa",
+        "Sagar",
+        "Satna",
+        "Shivpuri",
+        "Vidisha"
+      ]
+    },
+    {
+      "state": "Maharashtra",
+      "cryChildren": 55695,
+      "cryBoys": 27594,
+      "cryGirls": 28098,
+      "nfhs5_underweight": 36.1,
+      "nfhs5_stunting": 35.2,
+      "nfhs5_wasting": 25.6,
+      "underweight_vs_avg": 4.0,
+      "stunting_vs_avg": -0.29999999999999716,
+      "wasting_vs_avg": 6.300000000000001,
+      "districts": [
+        "Ahmednagar",
+        "Gadchiroli",
+        "Latur",
+        "Mumbai",
+        "Nanded",
+        "Nandurbar",
+        "Osmanabad",
+        "Pune",
+        "Suburban Mumbai",
+        "Wardha"
+      ]
+    },
+    {
+      "state": "Manipur",
+      "cryChildren": 3058,
+      "cryBoys": 1548,
+      "cryGirls": 1510,
+      "nfhs5_underweight": 13.3,
+      "nfhs5_stunting": 23.4,
+      "nfhs5_wasting": 6.5,
+      "underweight_vs_avg": -18.8,
+      "stunting_vs_avg": -12.100000000000001,
+      "wasting_vs_avg": -12.8,
+      "districts": [
+        "Chandel ",
+        "Imphal West",
+        "Tengnoupal"
+      ]
+    },
+    {
+      "state": "Odisha",
+      "cryChildren": 19586,
+      "cryBoys": 10052,
+      "cryGirls": 9529,
+      "nfhs5_underweight": 29.7,
+      "nfhs5_stunting": 31.0,
+      "nfhs5_wasting": 18.1,
+      "underweight_vs_avg": -2.400000000000002,
+      "stunting_vs_avg": -4.5,
+      "wasting_vs_avg": -1.1999999999999993,
+      "districts": [
+        "BARGARH",
+        "Balangir",
+        "KALAHANDI",
+        "Kandhamal",
+        "Koraput",
+        "Mayurbhanj"
+      ]
+    },
+    {
+      "state": "Rajasthan",
+      "cryChildren": 30759,
+      "cryBoys": 16227,
+      "cryGirls": 14523,
+      "nfhs5_underweight": 27.6,
+      "nfhs5_stunting": 31.8,
+      "nfhs5_wasting": 16.8,
+      "underweight_vs_avg": -4.5,
+      "stunting_vs_avg": -3.6999999999999993,
+      "wasting_vs_avg": -2.5,
+      "districts": [
+        "Ajmer",
+        "Alwar",
+        "Baran",
+        "Bharatpur",
+        "Jaipur",
+        "Jodhpur",
+        "Kekri",
+        "Udaipur"
+      ]
+    },
+    {
+      "state": "Tamil Nadu",
+      "cryChildren": 21695,
+      "cryBoys": 10637,
+      "cryGirls": 11048,
+      "nfhs5_underweight": 22.1,
+      "nfhs5_stunting": 25.0,
+      "nfhs5_wasting": 14.6,
+      "underweight_vs_avg": -10.0,
+      "stunting_vs_avg": -10.5,
+      "wasting_vs_avg": -4.700000000000001,
+      "districts": [
+        "Chennai",
+        "Dharmapuri",
+        "Ramanathapuram",
+        "Salem",
+        "Tenkasi",
+        "Tirunelveli"
+      ]
+    },
+    {
+      "state": "Telangana",
+      "cryChildren": 7567,
+      "cryBoys": 3914,
+      "cryGirls": 3653,
+      "nfhs5_underweight": 31.8,
+      "nfhs5_stunting": 33.1,
+      "nfhs5_wasting": 21.7,
+      "underweight_vs_avg": -0.3000000000000007,
+      "stunting_vs_avg": -2.3999999999999986,
+      "wasting_vs_avg": 2.3999999999999986,
+      "districts": [
+        "Khamman",
+        "Medchal"
+      ]
+    },
+    {
+      "state": "Uttar Pradesh",
+      "cryChildren": 104309,
+      "cryBoys": 54317,
+      "cryGirls": 49979,
+      "nfhs5_underweight": 32.1,
+      "nfhs5_stunting": 39.7,
+      "nfhs5_wasting": 17.3,
+      "underweight_vs_avg": 0.0,
+      "stunting_vs_avg": 4.200000000000003,
+      "wasting_vs_avg": -2.0,
+      "districts": [
+        "Bhadohi",
+        "Budaun",
+        "Chandauli",
+        "Gautam Buddha Nagar",
+        "Kaushambi",
+        "Lakhimpur Kheri",
+        "Lucknow",
+        "Prayagraj",
+        "Sonebhadra",
+        "VARANASI "
+      ]
+    },
+    {
+      "state": "West Bengal",
+      "cryChildren": 9011,
+      "cryBoys": 4590,
+      "cryGirls": 4421,
+      "nfhs5_underweight": 32.2,
+      "nfhs5_stunting": 33.8,
+      "nfhs5_wasting": 20.3,
+      "underweight_vs_avg": 0.10000000000000142,
+      "stunting_vs_avg": -1.7000000000000028,
+      "wasting_vs_avg": 1.0,
+      "districts": [
+        "KOLKATA",
+        "Paschim Bardhaman",
+        "South 24 Parganas"
+      ]
+    }
+  ]
+}
