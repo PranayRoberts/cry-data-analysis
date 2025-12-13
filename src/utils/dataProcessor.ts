@@ -183,6 +183,19 @@ export function generateSummaryStats(data: any[]) {
   data.forEach((item) => {
     if (!item || typeof item !== 'object') return;
     
+    // Helper function to parse numeric values
+    const parseNumValue = (value: any): number => {
+      if (typeof value === 'number' && !isNaN(value)) {
+        return value;
+      } else if (typeof value === 'string' && value.trim() !== '') {
+        const parsed = parseFloat(value.replace(/,/g, ''));
+        if (!isNaN(parsed)) {
+          return parsed;
+        }
+      }
+      return 0;
+    };
+    
     // Check for individual child records (Gender field present)
     if (item['Gender']) {
       const gender = String(item['Gender']).toLowerCase();
@@ -192,20 +205,21 @@ export function generateSummaryStats(data: any[]) {
         stats.totalGirls += 1;
       }
     } else {
-      // For aggregate data (not individual child records)
-      Object.entries(item).forEach(([key, value]) => {
-        const lowerKey = key.toLowerCase();
-        if (typeof value === 'number' && !isNaN(value)) {
-          // Match boys fields
-          if (lowerKey.includes('boys') && (lowerKey.includes('total') || lowerKey.includes('enrolled')) && !lowerKey.includes('adolescent')) {
-            stats.totalBoys += value;
-          }
-          // Match girls fields
-          if (lowerKey.includes('girls') && (lowerKey.includes('total') || lowerKey.includes('enrolled')) && !lowerKey.includes('adolescent')) {
-            stats.totalGirls += value;
-          }
-        }
-      });
+      // For aggregate data (school records, anganwadi centers, etc.)
+      // Use EXACT field names to avoid over-counting sub-categories (SC Boys, ST Boys, etc.)
+      
+      // Priority 1: Check for exact "Total Boys" and "Total Girls" fields (school data)
+      if (item['Total Boys'] !== undefined || item['Total Girls'] !== undefined) {
+        stats.totalBoys += parseNumValue(item['Total Boys']);
+        stats.totalGirls += parseNumValue(item['Total Girls']);
+      }
+      // Priority 2: Check for age-band enrollment fields (anganwadi data)
+      else if (item['Boys (0-3 Years) enrolled'] !== undefined || item['Boys (3-6 Years) enrolled'] !== undefined) {
+        stats.totalBoys += parseNumValue(item['Boys (0-3 Years) enrolled']);
+        stats.totalBoys += parseNumValue(item['Boys (3-6 Years) enrolled']);
+        stats.totalGirls += parseNumValue(item['Girls (0-3 Years) enrolled']);
+        stats.totalGirls += parseNumValue(item['Girls (3-6 Years) enrolled']);
+      }
     }
     
     if (item['Region Name'] && typeof item['Region Name'] === 'string') {

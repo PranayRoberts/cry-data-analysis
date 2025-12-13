@@ -43,14 +43,54 @@ export const MainDashboard: React.FC = () => {
         stats.anganwadi = generateSummaryStats(Array.isArray(data2024) ? data2024 : []);
       }
 
+      // Handle new summary format for child data
       if (childData && typeof childData === 'object') {
-        const data2024 = childData['child-annual-information_Report_2024.xlsx_child-annual-information'] || [];
-        stats.child = generateSummaryStats(Array.isArray(data2024) ? data2024 : []);
+        // Check if it's the new summary format
+        if (childData.totalRecords !== undefined && childData.byYear) {
+          // Sum all years for total
+          let totalChildren = 0, totalBoys = 0, totalGirls = 0;
+          Object.values(childData.byYear).forEach((yearData: any) => {
+            totalChildren += yearData.count || 0;
+            totalBoys += yearData.boys || 0;
+            totalGirls += yearData.girls || 0;
+          });
+          stats.child = {
+            totalRecords: childData.totalRecords,
+            totalChildren: totalChildren,
+            totalBoys: totalBoys,
+            totalGirls: totalGirls,
+            regions: childData.byState ? Object.keys(childData.byState) : [],
+            districts: [],
+          };
+        } else {
+          const data2024 = childData['child-annual-information_Report_2024.xlsx_child-annual-information'] || [];
+          stats.child = generateSummaryStats(Array.isArray(data2024) ? data2024 : []);
+        }
       }
 
+      // Handle new summary format for education data
       if (educationData && typeof educationData === 'object') {
-        const data2024 = educationData['child-education_Consolidated_2024.xlsx_child-education'] || [];
-        stats.education = generateSummaryStats(Array.isArray(data2024) ? data2024 : []);
+        // Check if it's the new summary format
+        if (educationData.totalRecords !== undefined && educationData.byYear) {
+          // Sum all years for total
+          let totalChildren = 0, totalBoys = 0, totalGirls = 0;
+          Object.values(educationData.byYear).forEach((yearData: any) => {
+            totalChildren += yearData.count || 0;
+            totalBoys += yearData.boys || 0;
+            totalGirls += yearData.girls || 0;
+          });
+          stats.education = {
+            totalRecords: educationData.totalRecords,
+            totalChildren: totalChildren,
+            totalBoys: totalBoys,
+            totalGirls: totalGirls,
+            regions: educationData.byState ? Object.keys(educationData.byState) : [],
+            districts: [],
+          };
+        } else {
+          const data2024 = educationData['child-education_Consolidated_2024.xlsx_child-education'] || [];
+          stats.education = generateSummaryStats(Array.isArray(data2024) ? data2024 : []);
+        }
       }
 
       if (schoolData && typeof schoolData === 'object') {
@@ -71,9 +111,18 @@ export const MainDashboard: React.FC = () => {
     console.log('Computing overallStats from allStats:', allStats);
     
     try {
+      // Calculate children from Child Annual + Child Education (survey data - these are unique individual child records)
+      const surveyChildren = (allStats.child?.totalChildren || 0) + (allStats.education?.totalChildren || 0);
+      
+      // School and Anganwadi are facility-level data (students enrolled in schools/centers)
+      const schoolStudents = allStats.school?.totalChildren || 0;
+      const anganwadiChildren = allStats.anganwadi?.totalChildren || 0;
+      
       const total = {
         centers: (allStats.anganwadi?.totalRecords || 0) + (allStats.school?.totalRecords || 0),
-        children: (allStats.child?.totalChildren || 0) + (allStats.education?.totalChildren || 0),
+        surveyChildren: surveyChildren,  // Child Annual + Education survey records
+        schoolStudents: schoolStudents,  // Students in schools
+        anganwadiChildren: anganwadiChildren,  // Children in anganwadis
         regions: new Set<string>(),
         districts: new Set<string>(),
       };
@@ -95,7 +144,9 @@ export const MainDashboard: React.FC = () => {
       console.error('Error computing overallStats:', err);
       return {
         centers: 0,
-        children: 0,
+        surveyChildren: 0,
+        schoolStudents: 0,
+        anganwadiChildren: 0,
         regions: 0,
         districts: 0,
       };
@@ -171,7 +222,7 @@ export const MainDashboard: React.FC = () => {
             </h2>
             <p className="text-sm text-gray-700 mb-3">
               This dashboard consolidates data from <strong>4 key program areas</strong> spanning <strong>2023-2024</strong>, 
-              tracking over <strong>65,000 records</strong> to measure impact on child rights, education, health, and welfare.
+              tracking over <strong>985,000 program records</strong> to measure impact on child rights, education, health, and welfare.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-gray-600">
               <div className="flex items-start space-x-2">
@@ -203,24 +254,28 @@ export const MainDashboard: React.FC = () => {
         </div>
 
         {/* Overall Statistics */}
-        <Section title="Overall Statistics">
-          <div className="mb-4">
+        <Section title="Overall Statistics (2023-2024 Cumulative)">
+          <div className="mb-4 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
             <p className="text-sm text-gray-700">
-              <strong>Summary Metrics:</strong> These numbers represent the aggregate scale of CRY's intervention programs. 
-              <span className="font-medium"> Facilities</span> include Anganwadi centers and schools; 
-              <span className="font-medium"> Children Tracked</span> shows total beneficiaries across all programs; 
-              <span className="font-medium"> Geographic Coverage</span> indicates reach across India.
+              <strong>Cumulative Reach (2023 + 2024):</strong> These numbers represent the <strong>total children tracked across both years</strong> of CRY's intervention programs. 
+              This cumulative count captures our complete reach over the reporting period, though some children may appear in both years.
             </p>
+            <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-gray-600">
+              <div><strong>Child Annual:</strong> 503,635 (377K in 2023 + 127K in 2024)</div>
+              <div><strong>Education:</strong> 474,240 (241K in 2023 + 233K in 2024)</div>
+              <div><strong>Anganwadi:</strong> 137,566 children (2024)</div>
+              <div><strong>Schools:</strong> 244,364 students (2024)</div>
+            </div>
           </div>
           <DashboardGrid columns={4}>
             <StatCard
-              label="Total Facilities"
+              label="Total Facilities (2024)"
               value={overallStats.centers}
               trend="stable"
             />
             <StatCard
-              label="Total Children Tracked"
-              value={overallStats.children}
+              label="Childen Survey Records"
+              value={overallStats.surveyChildren}
               trend="stable"
             />
             <StatCard
@@ -310,7 +365,7 @@ export const MainDashboard: React.FC = () => {
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-lg shadow-md border-l-4 border-green-500">
               <h4 className="font-bold text-green-900 mb-2 text-lg">Program Reach</h4>
               <p className="text-sm text-green-800 mb-3">
-                We're tracking <strong>{overallStats.children.toLocaleString()}</strong> children across 
+                We're tracking <strong>{overallStats.surveyChildren.toLocaleString()}</strong> children in surveys across 
                 <strong> {overallStats.centers}</strong> facilities in <strong>{overallStats.districts}</strong> districts.
               </p>
               <div className="bg-white p-3 rounded-md">
@@ -449,41 +504,41 @@ export const MainDashboard: React.FC = () => {
         {/* Recommendations */}
         <Section title="Strategic Recommendations">
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Actions Items</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Data-Driven Action Items</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-4 rounded-lg">
-                <h4 className="font-bold text-green-700 mb-2">Continue & Expand</h4>
+              <div className="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                <h4 className="font-bold text-green-700 mb-2">Scale What's Working</h4>
                 <ul className="text-sm text-gray-700 space-y-1">
-                  <li>Scale successful models to new regions</li>
-                  <li>Strengthen high-performing centres/schools</li>
-                  <li>Maintain momentum in gender equity gains</li>
+                  <li><strong>Uttar Pradesh model:</strong> 65,131 children enrolled - study and replicate their approach</li>
+                  <li><strong>Rural focus validated:</strong> 80% of children (401,899) reached in rural areas</li>
+                  <li><strong>Infrastructure progress:</strong> 90% schools have toilets, 85% have drinking water</li>
                 </ul>
               </div>
               
-              <div className="bg-white p-4 rounded-lg">
-                <h4 className="font-bold text-yellow-700 mb-2">Areas Needing Attention</h4>
+              <div className="bg-white p-4 rounded-lg border-l-4 border-red-500">
+                <h4 className="font-bold text-red-700 mb-2">Priority Interventions</h4>
                 <ul className="text-sm text-gray-700 space-y-1">
-                  <li>Investigate regions with declining coverage</li>
-                  <li>Address gender gaps if below 45%</li>
-                  <li>Focus on underperforming blocks/villages</li>
+                  <li><strong>Manipur crisis:</strong> Only 710 children enrolled - urgent investigation needed</li>
+                  <li><strong>Odisha & Telangana:</strong> Below 10,000 each - deploy additional resources</li>
+                  <li><strong>Enrollment decline:</strong> Down 7,910 (241K to 233K) from 2023 to 2024</li>
                 </ul>
               </div>
 
-              <div className="bg-white p-4 rounded-lg">
-                <h4 className="font-bold text-blue-700 mb-2">Data-Driven Priorities</h4>
+              <div className="bg-white p-4 rounded-lg border-l-4 border-purple-500">
+                <h4 className="font-bold text-purple-700 mb-2">Gender & Equity Focus</h4>
                 <ul className="text-sm text-gray-700 space-y-1">
-                  <li>Link infrastructure quality to child outcomes</li>
-                  <li>Monitor nutrition/health trends closely</li>
-                  <li>Track attendance and retention patterns</li>
+                  <li><strong>Girls at 48.5%:</strong> Close 1.5% gap to achieve full gender parity</li>
+                  <li><strong>Target:</strong> 6,475 additional girls needed for 50-50 balance</li>
+                  <li><strong>Urban expansion:</strong> Only 20% urban coverage - expand slum programs</li>
                 </ul>
               </div>
 
-              <div className="bg-white p-4 rounded-lg">
-                <h4 className="font-bold text-purple-700 mb-2">Next Steps</h4>
+              <div className="bg-white p-4 rounded-lg border-l-4 border-purple-500">
+                <h4 className="font-bold text-blue-700 mb-2">Infrastructure Priorities</h4>
                 <ul className="text-sm text-gray-700 space-y-1">
-                  <li>Deep-dive into specific dashboards for details</li>
-                  <li>Use Advanced Analytics for correlation studies</li>
-                  <li>Compare blocks/villages for best practices</li>
+                  <li><strong>145 schools</strong> lack drinking water - immediate action required</li>
+                  <li><strong>118 schools</strong> without electricity - partner with govt schemes</li>
+                  <li><strong>16% schools</strong> need separate girls' toilets for retention</li>
                 </ul>
               </div>
             </div>
@@ -494,30 +549,30 @@ export const MainDashboard: React.FC = () => {
           <div className="mb-8 bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg shadow-md">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Turning Data Into Action</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-4 rounded-lg">
-                <h4 className="font-bold text-green-700 mb-2">What's Working</h4>
+              <div className="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                <h4 className="font-bold text-green-700 mb-2">Celebrate & Replicate</h4>
                 <ul className="text-sm text-gray-700 space-y-2">
-                  <li><strong>Celebrate Top Performers:</strong> Identify best-performing districts in Key Insights dashboard</li>
-                  <li><strong>Replicate Success:</strong> Document and share practices from high-performing centers</li>
-                  <li><strong>Visible Progress:</strong> Use Executive Summary to showcase YoY improvements to stakeholders</li>
+                  <li><strong>Top 3 States:</strong> Uttar Pradesh (65K), Maharashtra (54K), Jharkhand (44K) - recognize teams</li>
+                  <li><strong>Rural Success:</strong> 401,899 children (80%) reached in rural areas - model is working</li>
+                  <li><strong>Infrastructure Wins:</strong> 90% toilet coverage, 85% water - share best practices</li>
                 </ul>
               </div>
 
-              <div className="bg-white p-4 rounded-lg">
-                <h4 className="font-bold text-red-700 mb-2">Where to Focus</h4>
+              <div className="bg-white p-4 rounded-lg border-l-4 border-red-500">
+                <h4 className="font-bold text-red-700 mb-2">Urgent Action Required</h4>
                 <ul className="text-sm text-gray-700 space-y-2">
-                  <li><strong>Bottom Performers:</strong> Allocate resources to bottom 10 districts (see Key Insights)</li>
-                  <li><strong>Rising Malnutrition:</strong> Target districts with worsening nutrition indicators</li>
-                  <li><strong>Gender Gaps:</strong> Address locations where girls' participation is below 45%</li>
+                  <li><strong>Manipur Alert:</strong> Only 710 children - schedule immediate state team call</li>
+                  <li><strong>Bottom States:</strong> Odisha (4.3K), Telangana (9.4K) - deploy additional field staff</li>
+                  <li><strong>2024 Decline:</strong> Lost 7,910 enrollments vs 2023 - investigate root causes</li>
                 </ul>
               </div>
 
-              <div className="bg-white p-4 rounded-lg">
-                <h4 className="font-bold text-blue-700 mb-2">Next Steps</h4>
+              <div className="bg-white p-4 rounded-lg border-l-4 border-purple-500">
+                <h4 className="font-bold text-blue-700 mb-2">Quarterly Targets</h4>
                 <ul className="text-sm text-gray-700 space-y-2">
-                  <li><strong>Quarterly Reviews:</strong> Set targets for improvement in identified weak areas</li>
-                  <li><strong>Infrastructure ROI:</strong> Prioritize facilities with proven outcome correlations</li>
-                  <li><strong>Equity Targets:</strong> Establish district-level gender parity and rural-urban balance goals</li>
+                  <li><strong>Gender Parity:</strong> Add 6,475 girls to reach 50% (currently 48.5%)</li>
+                  <li><strong>Infrastructure:</strong> Fix water in 145 schools, electricity in 118 schools</li>
+                  <li><strong>Low States:</strong> Grow bottom 5 states to 15,000 children each by Q4</li>
                 </ul>
               </div>
             </div>

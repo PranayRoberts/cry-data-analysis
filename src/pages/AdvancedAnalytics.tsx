@@ -223,9 +223,9 @@ export const AdvancedAnalytics: React.FC = () => {
                 <span className="block mt-1">
                   Here, <span className="font-medium">beneficiaries</span> include children reached through Child Annual Surveys and Education programs, as well as children served through Anganwadi centres and schools where CRY is working.
                 </span>
-                <span>• Child Annual Surveys (500 records) • Child Education Data (500 records) • Anganwadi Centers (2,013 centers) • Schools (1,655 schools)</span>
+                <span>• Child Annual Surveys (503,635 records) • Child Education Data (474,240 records) • Anganwadi Centers (3,998 centers) • Schools (3,255 schools)</span>
                 <span className="block mt-1 italic text-xs">
-                  Note: The same child may appear in multiple program datasets; figures represent program records and service touchpoints, not a de-duplicated count of unique children.
+                  Note: The same child may appear in multiple program datasets; figures represent program records and service touchpoints across 2023-2024, not a de-duplicated count of unique children.
                 </span>
               </p>
             </div>
@@ -801,9 +801,9 @@ export const AdvancedAnalytics: React.FC = () => {
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Executive Summary</h3>
               </div>
               <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-                Comprehensive analysis of 360,000+ records across Child Annual Surveys (126,502), Education programs (233,165), 
-                Anganwadi centers (2,013), and Schools (1,600) reveals key patterns in demographics, infrastructure, teacher resources, 
-                and service delivery that can guide strategic program optimization.
+                Comprehensive analysis of <strong>985,000+ records</strong> across Child Annual Surveys (503,635 records spanning 2023-2024), 
+                Education programs (474,240 records), Anganwadi centers (3,998 centers across 2023-2024), and Schools (3,255 schools) 
+                reveals key patterns in demographics, infrastructure, teacher resources, and service delivery that can guide strategic program optimization.
               </p>
             </div>
 
@@ -869,12 +869,12 @@ export const AdvancedAnalytics: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex items-start">
                     <p className="text-gray-700 dark:text-gray-300">
-                      <strong>Network Strength:</strong> 1,819 Anganwadi centers form the backbone of early childhood services
+                      <strong>Network Strength:</strong> 3,998 Anganwadi centers (2,013 in 2024 + 1,985 in 2023) form the backbone of early childhood services
                     </p>
                   </div>
                   <div className="flex items-start">
                     <p className="text-gray-700 dark:text-gray-300">
-                      <strong>School Coverage:</strong> Primary schools (843) dominate, with secondary education facilities needing expansion
+                      <strong>School Coverage:</strong> 3,255 schools covered (1,600 in 2024 + 1,655 in 2023), with primary schools dominating and secondary education facilities needing expansion
                     </p>
                   </div>
                   <div className="mt-4 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-md">
@@ -1074,7 +1074,8 @@ export const AdvancedAnalytics: React.FC = () => {
             <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
               <p className="text-sm text-gray-600 dark:text-gray-400 italic">
                 <strong>Note:</strong> Insights derived from analysis of 20 comprehensive visualizations covering demographics, 
-                education, infrastructure, teacher resources, nutrition services, special needs, and geographic distribution. 
+                education, infrastructure, teacher resources, nutrition services, special needs, and geographic distribution across 
+                985,000+ program records (Child Annual: 503,635 | Child Education: 474,240 | Anganwadi: 3,998 centers | Schools: 3,255). 
                 Recommendations should be validated with on-ground realities. Use the interactive map to explore state-specific data.
               </p>
             </div>

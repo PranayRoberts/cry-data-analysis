@@ -10,34 +10,127 @@ import {
   Section,
   DashboardGrid,
 } from '../components/Dashboard';
-import { generateSummaryStats, filterData, calculatePercentChange } from '../utils/dataProcessor';
+import { calculatePercentChange } from '../utils/dataProcessor';
+
+// Type for summary data format
+interface YearData {
+  count: number;
+  boys: number;
+  girls: number;
+}
+
+interface SummaryData {
+  totalRecords: number;
+  byYear: Record<string, YearData>;
+  byState: Record<string, YearData>;
+  byRegion: Record<string, YearData>;
+  byDistrict: Record<string, YearData>;
+  byProject: Record<string, YearData>;
+  byGrade: Record<string, number>;
+  bySchoolType: Record<string, number>;
+  byMediumOfInstruction: Record<string, number>;
+  byBoardOfEducation: Record<string, number>;
+  byAttendanceRate: { excellent: number; good: number; average: number; poor: number };
+  byPerformance: Record<string, number>;
+  stateYearData: Record<string, Record<string, YearData>>;
+  regionYearData: Record<string, Record<string, YearData>>;
+  districtYearData: Record<string, Record<string, YearData>>;
+  regionDistrictMap: Record<string, string[]>;
+  sampleRecords: Record<string, unknown>[];
+}
 
 export const ChildEducationDashboard: React.FC = () => {
-  const { data: allData, loading, error } = useData({ dataPath: '/data/child_education_data.json' });
+  const { data: summaryData, loading, error } = useData({ dataPath: '/data/child_education_data.json' });
   const [filters, setFilters] = useState<{ region?: string; district?: string }>({});
 
-  const data = useMemo(() => {
-    if (!allData || typeof allData !== 'object') return null;
-
-    const data2023 = allData['Child_education_Consolidated-2023.xlsx_child-education'] || [];
-    const data2024 = allData['child-education_Consolidated_2024.xlsx_child-education'] || [];
+  // Get filter options from data
+  const filterOptions = useMemo(() => {
+    if (!summaryData) return { region: [], district: [] };
+    const data = summaryData as SummaryData;
+    
+    // Get all unique regions
+    const regions = Object.keys(data.byRegion || {}).filter(r => r !== 'Unknown');
+    
+    // Get districts filtered by selected region
+    let districts: string[] = [];
+    if (filters.region && data.regionDistrictMap && data.regionDistrictMap[filters.region]) {
+      districts = data.regionDistrictMap[filters.region];
+    } else {
+      districts = Object.keys(data.byDistrict || {}).filter(d => d !== 'Unknown');
+    }
 
     return {
-      data2023: Array.isArray(data2023) ? data2023 : [],
-      data2024: Array.isArray(data2024) ? data2024 : [],
+      region: regions.sort(),
+      district: districts.sort(),
     };
-  }, [allData]);
+  }, [summaryData, filters.region]);
 
-  const filteredData = useMemo(() => {
-    if (!data) return { data2023: [], data2024: [] };
+  // Extract stats from summary data, filtered by region/district
+  const stats2023 = useMemo(() => {
+    if (!summaryData || !summaryData.byYear) return { totalChildren: 0, totalBoys: 0, totalGirls: 0 };
+    const data = summaryData as SummaryData;
+    
+    // If filtering by district
+    if (filters.district && data.districtYearData && data.districtYearData[filters.district]) {
+      const yearData = data.districtYearData[filters.district]['2023'] || { count: 0, boys: 0, girls: 0 };
+      return {
+        totalChildren: yearData.count,
+        totalBoys: yearData.boys,
+        totalGirls: yearData.girls,
+      };
+    }
+    
+    // If filtering by region
+    if (filters.region && data.regionYearData && data.regionYearData[filters.region]) {
+      const yearData = data.regionYearData[filters.region]['2023'] || { count: 0, boys: 0, girls: 0 };
+      return {
+        totalChildren: yearData.count,
+        totalBoys: yearData.boys,
+        totalGirls: yearData.girls,
+      };
+    }
+    
+    // No filter - use total
+    const yearData = data.byYear['2023'] || { count: 0, boys: 0, girls: 0 };
     return {
-      data2023: filterData(data.data2023, filters),
-      data2024: filterData(data.data2024, filters),
+      totalChildren: yearData.count,
+      totalBoys: yearData.boys,
+      totalGirls: yearData.girls,
     };
-  }, [data, filters]);
+  }, [summaryData, filters]);
 
-  const stats2023 = useMemo(() => generateSummaryStats(filteredData.data2023), [filteredData]);
-  const stats2024 = useMemo(() => generateSummaryStats(filteredData.data2024), [filteredData]);
+  const stats2024 = useMemo(() => {
+    if (!summaryData || !summaryData.byYear) return { totalChildren: 0, totalBoys: 0, totalGirls: 0 };
+    const data = summaryData as SummaryData;
+    
+    // If filtering by district
+    if (filters.district && data.districtYearData && data.districtYearData[filters.district]) {
+      const yearData = data.districtYearData[filters.district]['2024'] || { count: 0, boys: 0, girls: 0 };
+      return {
+        totalChildren: yearData.count,
+        totalBoys: yearData.boys,
+        totalGirls: yearData.girls,
+      };
+    }
+    
+    // If filtering by region
+    if (filters.region && data.regionYearData && data.regionYearData[filters.region]) {
+      const yearData = data.regionYearData[filters.region]['2024'] || { count: 0, boys: 0, girls: 0 };
+      return {
+        totalChildren: yearData.count,
+        totalBoys: yearData.boys,
+        totalGirls: yearData.girls,
+      };
+    }
+    
+    // No filter - use total
+    const yearData = data.byYear['2024'] || { count: 0, boys: 0, girls: 0 };
+    return {
+      totalChildren: yearData.count,
+      totalBoys: yearData.boys,
+      totalGirls: yearData.girls,
+    };
+  }, [summaryData, filters]);
 
   const educationComparison = useMemo(() => {
     return [
@@ -79,28 +172,39 @@ export const ChildEducationDashboard: React.FC = () => {
     return total > 0 ? ((stats2024.totalGirls / total) * 100) : 0;
   }, [stats2024]);
 
-  const filterOptions = useMemo(() => {
-    if (!data) return { region: [], district: [] };
-    const allItems = [...data.data2023, ...data.data2024];
+  // Get total records and state count for display (filtered or total)
+  const totalRecords = useMemo(() => {
+    if (!summaryData) return 0;
+    const data = summaryData as SummaryData;
     
-    // Get all unique regions
-    const regions = new Set(allItems.map((d) => d['Region Name']).filter(Boolean));
+    // If filtering by district, return district count
+    if (filters.district && data.byDistrict && data.byDistrict[filters.district]) {
+      return data.byDistrict[filters.district].count;
+    }
     
-    // Get districts filtered by selected region
-    const districtsToShow = filters.region
-      ? allItems.filter((d) => d['Region Name'] === filters.region)
-      : allItems;
-    const districts = new Set(districtsToShow.map((d) => d['District Name']).filter(Boolean));
+    // If filtering by region, return region count
+    if (filters.region && data.byRegion && data.byRegion[filters.region]) {
+      return data.byRegion[filters.region].count;
+    }
+    
+    return data.totalRecords || 0;
+  }, [summaryData, filters]);
 
-    return {
-      region: Array.from(regions),
-      district: Array.from(districts),
-    };
-  }, [data, filters.region]);
+  // Get filter description for display
+  const filterDescription = useMemo(() => {
+    if (filters.district) return ` in ${filters.district}`;
+    if (filters.region) return ` in ${filters.region} Region`;
+    return '';
+  }, [filters]);
+
+  const statesCount = useMemo(() => {
+    if (!summaryData || !(summaryData as SummaryData).byState) return 0;
+    return Object.keys((summaryData as SummaryData).byState).filter(s => s !== 'Unknown').length;
+  }, [summaryData]);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error} />;
-  if (!data) return <ErrorMessage message="No data available" />;
+  if (!summaryData) return <ErrorMessage message="No data available" />;
 
   const childrenGrowth = calculatePercentChange(stats2023.totalChildren, stats2024.totalChildren);
   const getTrend = (val2024: number, val2023: number): 'up' | 'down' | 'stable' => {
@@ -112,7 +216,10 @@ export const ChildEducationDashboard: React.FC = () => {
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <h1 className="text-4xl font-bold mb-2 text-gray-900">Child Education Dashboard</h1>
-      <p className="text-gray-600 mb-4">Comprehensive analysis of school enrollment, retention, educational access, and gender parity in education</p>
+      <p className="text-gray-600 mb-4">
+        Comprehensive analysis of school enrollment, retention, educational access, and gender parity in education
+        <span className="ml-2 text-purple-600 font-semibold">({totalRecords.toLocaleString()} records{filterDescription})</span>
+      </p>
       
       {/* Contextual Information */}
       <div className="mb-6 p-4 bg-purple-50 border-l-4 border-purple-500 rounded-lg">
@@ -121,19 +228,21 @@ export const ChildEducationDashboard: React.FC = () => {
           <li><strong>Enrollment Status:</strong> Track children actively attending school vs dropouts to measure educational continuity</li>
           <li><strong>Gender in Education:</strong> Boys vs girls enrollment to ensure equal educational opportunities (SDG 5: Gender Equality)</li>
           <li><strong>Year-over-Year Progress:</strong> Compare 2023 vs 2024 to identify improvements or areas needing intervention</li>
-          <li><strong>Regional Disparities:</strong> Identify geographic areas with low enrollment or high dropout rates</li>
+          <li><strong>Regional Disparities:</strong> Use the Region and District filters to identify geographic areas with low enrollment or high dropout rates</li>
         </ul>
-        <p className="text-xs text-purple-700 mt-2 italic"><strong>Action Point:</strong> Red arrows (↓) indicate declining metrics requiring immediate attention; green arrows (↑) show positive impact of interventions.</p>
+        <p className="text-xs text-purple-700 mt-2 italic"><strong>Action Point:</strong> Red arrows indicate declining metrics requiring immediate attention; green arrows show positive impact of interventions.</p>
       </div>
 
+      {/* Region and District Filters - Just above Key Metrics */}
       <FilterBar
         filters={filters}
         filterOptions={filterOptions}
         onFilterChange={(key, value) => {
           if (key === 'region') {
-            setFilters({ region: value });
+            // Clear district when region changes
+            setFilters({ region: value || undefined });
           } else {
-            setFilters({ ...filters, [key]: value });
+            setFilters({ ...filters, [key]: value || undefined });
           }
         }}
       />
@@ -189,8 +298,8 @@ export const ChildEducationDashboard: React.FC = () => {
 
       <Section title="Geographic Coverage">
         <DashboardGrid columns={2}>
-          <StatCard label="Regions Covered" value={stats2024.regions.length} trend="stable" />
-          <StatCard label="Districts Covered" value={stats2024.districts.length} trend="stable" />
+          <StatCard label="States Covered" value={statesCount} trend="stable" />
+          <StatCard label="Total Records" value={totalRecords.toLocaleString()} trend="stable" />
         </DashboardGrid>
       </Section>
 
@@ -221,6 +330,214 @@ export const ChildEducationDashboard: React.FC = () => {
           <p className="text-xs text-orange-700 mt-3 italic"><strong>Recommended Actions:</strong> Implement girl-specific retention programs, improve school sanitation, provide scholarships, conduct community awareness on girls' education, and ensure safe transportation.</p>
         </div>
       )}
+
+      {/* Summary & Key Insights */}
+      <Section title="Summary & Key Insights">
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-lg shadow-md">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            {/* Enrollment Overview */}
+            <div className="g-white p-4 rounded-lg border-l-4 border-pink-500">
+              <h4 className="font-bold text-blue-800 mb-2">Enrollment Overview</h4>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li><strong>2024 Children:</strong> {stats2024.totalChildren.toLocaleString()}</li>
+                <li><strong>2023 Children:</strong> {stats2023.totalChildren.toLocaleString()}</li>
+                <li><strong>YoY Change:</strong> <span className={childrenGrowth >= 0 ? 'text-green-600' : 'text-red-600'}>{childrenGrowth >= 0 ? '+' : ''}{childrenGrowth}%</span></li>
+              </ul>
+            </div>
+
+            {/* Gender Parity */}
+            <div className="bg-white p-4 rounded-lg border-l-4 border-pink-500">
+              <h4 className="font-bold text-pink-800 mb-2">Gender Parity</h4>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li><strong>Girls (2024):</strong> {genderParity2024.toFixed(1)}% ({stats2024.totalGirls.toLocaleString()})</li>
+                <li><strong>Boys (2024):</strong> {(100 - genderParity2024).toFixed(1)}% ({stats2024.totalBoys.toLocaleString()})</li>
+                <li><strong>Gap from 50%:</strong> {Math.abs(50 - genderParity2024).toFixed(1)}%</li>
+              </ul>
+            </div>
+
+            {/* Coverage */}
+            <div className="bg-white p-4 rounded-lg border-l-4 border-green-500">
+              <h4 className="font-bold text-green-800 mb-2">Coverage</h4>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li><strong>Total Records:</strong> {totalRecords.toLocaleString()}</li>
+                <li><strong>States:</strong> {statesCount}</li>
+                <li><strong>Cumulative Reach:</strong> 474K children</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Key Insights */}
+          <div className="bg-white p-4 rounded-lg mb-6">
+            <h4 className="font-bold text-gray-900 mb-3">Key Insights</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="font-semibold text-green-700 mb-1">What's Going Well:</p>
+                <ul className="text-gray-700 space-y-1 list-disc ml-4">
+                  {genderParity2024 >= 48 && genderParity2024 <= 52 && (
+                    <li>Near gender parity achieved ({genderParity2024.toFixed(1)}% girls)</li>
+                  )}
+                  <li>Multi-state coverage with {statesCount} states tracked</li>
+                  <li>Comprehensive education tracking system in place</li>
+                  {childrenGrowth >= 0 && (
+                    <li>Positive enrollment growth of {childrenGrowth}%</li>
+                  )}
+                </ul>
+              </div>
+              <div>
+                <p className="font-semibold text-red-700 mb-1">Areas of Concern:</p>
+                <ul className="text-gray-700 space-y-1 list-disc ml-4">
+                  {childrenGrowth < 0 && (
+                    <li>Enrollment declined by {Math.abs(childrenGrowth)}% from 2023</li>
+                  )}
+                  {stats2024.totalGirls < stats2023.totalGirls && (
+                    <li>Girls' enrollment dropped by {Math.abs(calculatePercentChange(stats2023.totalGirls, stats2024.totalGirls))}%</li>
+                  )}
+                  {genderParity2024 < 48 && (
+                    <li>Gender gap exists - girls at {genderParity2024.toFixed(1)}% (target: 50%)</li>
+                  )}
+                  <li>Dropout rates need monitoring and intervention</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Action Items & Recommendations */}
+      <Section title="Action Items & Recommendations">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg shadow-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Immediate Actions */}
+            <div className="bg-white p-4 rounded-lg border-l-4 border-red-500">
+              <h4 className="font-bold text-red-700 mb-3">Immediate Priority (Q1)</h4>
+              <ul className="text-sm text-gray-700 space-y-2">
+                <li className="flex items-start space-x-2">
+                  <span className="text-red-500 font-bold">•</span>
+                  <div>
+                    <strong>Dropout Investigation:</strong> Identify districts with highest dropout rates and conduct household surveys
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-red-500 font-bold">•</span>
+                  <div>
+                    <strong>Girls' Retention:</strong> Launch targeted campaigns in areas where girls' enrollment dropped
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-red-500 font-bold">•</span>
+                  <div>
+                    <strong>School Sanitation:</strong> Audit schools for girls' toilets and menstrual hygiene facilities
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            {/* Short-term Actions */}
+            <div className="bg-white p-4 rounded-lg border-l-4 border-amber-500">
+              <h4 className="font-bold text-amber-700 mb-3">Short-term Goals (Q2-Q3)</h4>
+              <ul className="text-sm text-gray-700 space-y-2">
+                <li className="flex items-start space-x-2">
+                  <span className="text-amber-500 font-bold">•</span>
+                  <div>
+                    <strong>Scholarship Programs:</strong> Expand financial support for at-risk students, prioritizing girls
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-amber-500 font-bold">•</span>
+                  <div>
+                    <strong>Community Awareness:</strong> Conduct parent meetings on importance of continuous education
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-amber-500 font-bold">•</span>
+                  <div>
+                    <strong>Safe Transport:</strong> Partner with local authorities for safe school transport options
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            {/* Long-term Strategy */}
+            <div className="bg-white p-4 rounded-lg border-l-4 border-green-500">
+              <h4 className="font-bold text-green-700 mb-3">Long-term Strategy (Annual)</h4>
+              <ul className="text-sm text-gray-700 space-y-2">
+                <li className="flex items-start space-x-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <div>
+                    <strong>Skill Development:</strong> Introduce vocational training to improve school-to-work transition
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <div>
+                    <strong>Digital Learning:</strong> Expand digital literacy programs in underserved areas
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-green-500 font-bold">•</span>
+                  <div>
+                    <strong>Teacher Training:</strong> Invest in quality teaching through regular upskilling programs
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            {/* Success Metrics */}
+            <div className="bg-white p-4 rounded-lg border-l-4 border-purple-500">
+              <h4 className="font-bold text-purple-700 mb-3">Success Metrics to Track</h4>
+              <ul className="text-sm text-gray-700 space-y-2">
+                <li className="flex items-start space-x-2">
+                  <span className="text-purple-500 font-bold">•</span>
+                  <div>
+                    <strong>Target:</strong> Achieve 50% gender parity (current: {genderParity2024.toFixed(1)}%)
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-purple-500 font-bold">•</span>
+                  <div>
+                    <strong>Target:</strong> Reduce dropout rate by 10% year-over-year
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-purple-500 font-bold">•</span>
+                  <div>
+                    <strong>Target:</strong> Increase enrollment by 5% in 2025
+                  </div>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-purple-500 font-bold">•</span>
+                  <div>
+                    <strong>Target:</strong> 100% schools with functional girls' toilets
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="mt-6 p-4 bg-gray-100 rounded-lg">
+            <h4 className="font-bold text-gray-900 mb-3">Quick Reference: Key Numbers</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+              <div className="bg-white p-3 rounded shadow-sm">
+                <div className="text-xl font-bold text-purple-600">{totalRecords.toLocaleString()}</div>
+                <div className="text-gray-600">Total Records</div>
+              </div>
+              <div className="bg-white p-3 rounded shadow-sm">
+                <div className="text-xl font-bold text-blue-600">{statesCount}</div>
+                <div className="text-gray-600">States Covered</div>
+              </div>
+              <div className="bg-white p-3 rounded shadow-sm">
+                <div className="text-xl font-bold text-pink-600">{genderParity2024.toFixed(1)}%</div>
+                <div className="text-gray-600">Girls Percentage</div>
+              </div>
+              <div className="bg-white p-3 rounded shadow-sm">
+                <div className={`text-xl font-bold ${childrenGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>{childrenGrowth >= 0 ? '+' : ''}{childrenGrowth}%</div>
+                <div className="text-gray-600">YoY Change</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
     </div>
   );
 };
