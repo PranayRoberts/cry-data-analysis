@@ -59,7 +59,7 @@ export const InsightsAndTrends: React.FC = () => {
   const { data: schoolData, loading: schoolLoading } = useData({
     dataPath: '/data/school_data.json',
   });
-  const { data: anganwadiData, loading: anganwadiLoading } = useData({
+  const { data: _anganwadiData, loading: anganwadiLoading } = useData({
     dataPath: '/data/anganwadi_data.json',
   });
 

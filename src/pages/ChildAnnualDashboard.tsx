@@ -451,7 +451,7 @@ export const ChildAnnualDashboard: React.FC = () => {
                   <Legend 
                     verticalAlign="bottom"
                     height={36}
-                    formatter={(value, entry: any) => {
+                    formatter={(value, _entry: any) => {
                       const item = visualSummaryData.genderPieData.find(d => d.name === value);
                       return `${value}: ${item ? item.value.toLocaleString() : ''}`;
                     }}
