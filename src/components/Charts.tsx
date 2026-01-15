@@ -297,11 +297,10 @@ export const DemographicPieChart: React.FC<PieChartDataProps> = ({ data, title, 
                         style={{ backgroundColor: color }}
                       />
                       <span 
-                        className="font-medium truncate" 
+                        className="font-medium" 
                         style={{ color: color }}
-                        title={entry.name}
                       >
-                        {entry.name.length > 30 ? entry.name.substring(0, 27) + '...' : entry.name}
+                        {entry.name}
                       </span>
                     </div>
                   </td>

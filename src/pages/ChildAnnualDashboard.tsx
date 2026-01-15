@@ -1189,7 +1189,7 @@ export const ChildAnnualDashboard: React.FC = () => {
                   indicates strong girls' enrollment.
                 </p>
               </div>
-              <div className="text-center p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+              <div className="bg-white p-4 rounded-lg border-l-4 border-green-500">
                 <h5 className="font-semibold text-green-800 mb-2">Immunization Coverage</h5>
                 <p className="text-gray-700">
                   States with lower immunization rates (below 76% national average) represent areas where 

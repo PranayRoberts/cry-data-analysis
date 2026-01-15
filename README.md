@@ -48,7 +48,7 @@ This dashboard provides comprehensive data visualization and analysis for CRY's 
 | **Child Annual Dashboard** | Health, nutrition, age distribution, and welfare tracking |
 | **Child Education Dashboard** | Enrollment, attendance, dropout analysis |
 | **School Dashboard** | Infrastructure, teacher demographics, student-teacher ratios |
-| **Vulnerability Dashboard** | Protection risk scoring for Child Marriage, Child Labour, and Trafficking |
+| **Vulnerability Dashboard** | Protection risk scoring for Child Marriage, Child Labour, and Trafficking — includes education retention & attendance, labour & migration analysis, bonded labour callouts, protection-specific scoring, sample high-risk case tables, recommended actions, and regional/age-band breakdowns. |
 | **Advanced Analytics** | 20+ interactive Plotly.js visualizations with India map + Key Insights |
 
 ### 20+ Advanced Analytics Charts
@@ -73,7 +73,9 @@ This dashboard provides comprehensive data visualization and analysis for CRY's 
 18. **Rural-Urban Distribution** - Location-based facility analysis
 19. **District Coverage Heatmap** - Top districts by school coverage
 20. **School Category Distribution** - Government vs private schools
-21. **Protection Vulnerability Matrix** - Child Marriage, Labour, Trafficking risk analysis
+21. **Education Retention & Attendance** - Irregular attendance and dropout insights feeding into vulnerability scoring
+22. **Protection Vulnerability Matrix** - Child Marriage, Labour, Trafficking risk analysis
+23. **Protection Case Tables & Recommendations** - Sample high-risk cases per protection issue and suggested program actions
 
 ### Key Capabilities
 
@@ -164,6 +166,26 @@ The Vulnerability Dashboard calculates protection risk scores using CRY's **Prot
 
 ---
 
+## Vulnerability Dashboard
+
+The Vulnerability dashboard also has the following actionable sections and visualizations (click or filter any region to drill down):
+
+- **Education Retention & Attendance** — Irregular attendance and dropouts by region that feed directly into vulnerability scoring (re-enrolment tracking and absenteeism monitoring).
+- **School Enrollment Status** — Enrollment distribution pie chart and notes highlighting dropouts/never-enrolled entries.
+- **Top Risk Factors** — Frequency-based ranking of risk indicators (log scale view for visual clarity).
+- **Labor & Migration Analysis** — Breakdown of economic activity, migration status and **bonded labour** counts with critical callouts for actionable cases.
+- **Household Risk Indicators** — Single parent, child-headed households, primary earner illness and BPL counts.
+- **Regional Vulnerability Analysis** — High-risk children by region with a sortable regional table and bar chart.
+- **Age-wise Vulnerability & Protection by Age Band** — Age-group specific risk breakdowns and notes on applicability (e.g., child marriage applies only to girls 10–18 years).
+- **Year-over-Year Comparison (2023 vs 2024)** — Side-by-side KPI comparison for key metrics and score trends.
+- **Protection Vulnerability Analysis** — Separate protection-specific scoring for **Child Marriage**, **Child Labour**, and **Child Trafficking** (total at-risk, high/medium/low counts, avg/max scores), plus breakdowns by region and age band.
+- **Sample High-Risk Cases** — Two sets of case tables: protection-specific top cases (per issue) and general high-risk cases combining all signals (includes CRY IDs, location, score, and top risk factors).
+- **Recommended Actions & Summary Insights** — Suggested immediate/short-term/prevention actions and concise key findings to guide program responses.
+
+These additions improve program prioritization and case-level actionability (e.g., re-enrolment drives, bonded labour investigations, migration monitoring).
+
+---
+
 ## Quick Start
 
 ### Prerequisites
@@ -232,6 +254,7 @@ cry-data-analysis/
 ├── scripts/                          # Python data processing
 │   ├── generate_advanced_analytics.py
 │   ├── generate_enhanced_vulnerability.py  # Protection Vulnerability Matrix scoring
+│   ├── analyze_protection_risk.py         # Protection vulnerability QA / corrections
 │   ├── analyze_trends.py
 │   ├── analyze_excel_data.py
 │   └── create_sampled_data.py
@@ -266,7 +289,8 @@ python scripts/generate_advanced_analytics.py
 
 # Generate vulnerability scores (Protection Vulnerability Matrix)
 python scripts/generate_enhanced_vulnerability.py
-```
+# QA / Validate protection outputs and apply corrections (optional)
+python scripts/analyze_protection_risk.py```
 
 ### Source Excel Files
 The dashboard processes Excel files from 2023 and 2024 data:
@@ -352,7 +376,7 @@ npm run preview    # Preview production build locally
 | Issue | Solution |
 |-------|----------|
 | Charts not loading | Run `python scripts/generate_advanced_analytics.py` |
-| Vulnerability showing 0 high-risk | Run `python scripts/generate_enhanced_vulnerability.py` |
+| Vulnerability showing 0 high-risk | Run `python scripts/generate_enhanced_vulnerability.py` — if counts still look incorrect, run `python scripts/analyze_protection_risk.py` to validate and correct protection vulnerability outputs |
 | Login not working | Clear browser sessionStorage |
 | Build errors | Delete `node_modules` and run `npm install` |
 | Port in use | Use `npm run dev -- --port 3000` |
