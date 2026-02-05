@@ -371,6 +371,126 @@ npm run preview    # Preview production build locally
 
 ---
 
+## Accessing Vulnerable Children Data (Field Action)
+
+### ✨ New Feature: Click to Access Raw Data
+
+The **Vulnerability Dashboard** now supports clicking on risk cards to view and download raw child-level data for field action. A helpful "How to Use" section at the top of the dashboard explains:
+
+**View Raw Data:**
+- Click any risk card (High Risk, Medium Risk, or Households at Risk)
+- A modal opens showing detailed child records with pagination
+- Browse 50 children per page with ability to navigate through full dataset
+- Click **Export CSV** button to download all visible records for your field system
+
+**Export Protection-Specific Cases:**
+- Scroll down to four protection analysis sections: Child Labour, Child Trafficking, Child Marriage, and General Vulnerability
+- Each section includes an **Export CSV** button (color-coded by protection issue)
+- Download only the high-risk cases for that specific protection issue
+- Perfect for targeted interventions and field team planning
+
+### Key Features
+
+- Access **5,050+ high-risk children** details (ID, location, risk factors, vulnerability score)
+- Download as **CSV** for offline use in field systems or CRM
+- Export **protection-specific case tables** (Child Labour, Trafficking, Marriage, General)
+- Track field interventions by protection type
+- Badge labels show risk level: **Critical** (red text) for high risk, **Warning** (red text) for medium risk
+- Modal popup appears on top of page for quick data access while maintaining dashboard context
+
+### Quick Start for Field Teams
+
+1. **Open Vulnerability Dashboard**
+2. **Click the "High Risk Children"** card with the red "Critical" badge (5,050 children)
+3. A modal opens with a searchable data table (50 rows per page)
+4. Click **"Export CSV"** to download for your field system
+5. **Alternatively**, scroll to protection-specific sections and click **Export CSV** for targeted case lists
+
+### Data Available for Export
+
+Each child record includes:
+```json
+{
+  "childId": "245381",
+  "ageBand": "15-18Y",
+  "gender": "Male",
+  "state": "Tamil Nadu",
+  "district": "Ramanathapuram",
+  "enrollmentStatus": "Drop out of School",
+  "economicActivity": "Yes outside home alone",
+  "migrationStatus": "Yes, alone",
+  "bondedLabor": "No",
+  "score": 80,
+  "riskFactors": ["Dropout", "Child Labor", "Migrated Alone"]
+}
+```
+
+### Exporting Protection-Specific Cases
+
+The Vulnerability Dashboard includes **color-coded export buttons for protection-specific case tables**. These appear in four sections below the main analysis:
+
+| Button | Protection Issue | Export Contents |
+|--------|-----------------|-----------------|
+| **Child Labour** | Top risk cases scoring 50+ for labour and economic activity hazards |
+| **Child Trafficking** | High-risk cases with migration, migration alone, or trafficking hotspot indicators |
+| **Child Marriage** | Adolescent girls at risk (out-of-school, 2+ girls in household, orphan status) |
+| **General Vulnerability** | Sample high-risk cases from full vulnerability matrix for field prioritization |
+
+Each export includes only the cases for that specific protection issue, **sorted by vulnerability score (highest first)**. Use these targeted exports to:
+- Plan field interventions by protection type
+- Allocate resources to specific risk categories
+- Brief field teams on priority cases
+- Track progress by protection issue
+
+### For Data Analysts: Generate Full Exports
+
+By default, the dashboard uses sample data. To generate complete lists of all vulnerable children:
+
+```bash
+# Activate Python venv
+.\.venv\Scripts\Activate.ps1
+
+# Run export script
+python scripts/export_risk_data.py
+```
+
+This creates:
+- `public/data/high_risk_children.json` (5,050 children)
+- `public/data/medium_risk_children.json` (35,907 children)
+
+Then restart the app:
+```bash
+npm run dev
+```
+
+### Field-Level Actions by Risk Factor
+
+| Risk Factor | Suggested Action |
+|---|---|
+| **Bonded Labor** | Urgent rescue/rehabilitation intervention |
+| **Dropout + Economic Activity** | Re-enrollment support + livelihood programs |
+| **Migrated Alone** | Family tracing + trafficking risk mitigation |
+| **Single Parent HH** | Economic support + community care |
+| **Economic Activity** | Skills training + parental income support |
+
+### Integration with Field Systems
+
+- **Mobile Apps**: Import CSV into ODK/SurveyCake for offline field verification
+- **CRM/Case Management**: Import into Salesforce/Odoo and link with existing case records
+- **GIS/Mapping**: Use district/state columns combined with GeoJSON for geographic visualization
+- **Spreadsheets**: Excel/Google Sheets for filtering, sorting, and tracking
+
+### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Modal shows "No data available" | Run `python scripts/export_risk_data.py` |
+| Only seeing 100 children | Full exports not generated yet — see "Generate Full Exports" above |
+| CSV won't download | Check browser allows downloads, try different browser |
+| Child IDs don't match | Use `childCryAdminId` instead — it's CRY's internal ID |
+
+---
+
 ## Troubleshooting
 
 | Issue | Solution |
@@ -381,6 +501,7 @@ npm run preview    # Preview production build locally
 | Build errors | Delete `node_modules` and run `npm install` |
 | Port in use | Use `npm run dev -- --port 3000` |
 | Map not showing | Verify `india_states.geojson` exists in `/public/` |
+| Raw data export issues | Ensure `excel-data/` folder has latest Excel files, verify JSON files created in `public/data/` |
 
 ---
 
