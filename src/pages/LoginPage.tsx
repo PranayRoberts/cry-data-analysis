@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Lock, Eye, EyeOff, ShieldCheck, Loader2 } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
+  const currentYear = new Date().getFullYear();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -84,8 +85,8 @@ export const LoginPage: React.FC = () => {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 transition shadow-sm"
-                  style={{ color: '#111827' }}
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 text-gray-900 dark:text-gray-100 transition shadow-sm"
+                  style={{ color: 'inherit' }}
                   placeholder="Enter username"
                   autoComplete="username"
                   disabled={isLoading}
@@ -108,8 +109,8 @@ export const LoginPage: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 transition shadow-sm"
-                  style={{ color: '#111827' }}
+                  className="w-full pl-10 pr-12 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-900 placeholder-gray-400 dark:placeholder-gray-500 text-gray-900 dark:text-gray-100 transition shadow-sm"
+                  style={{ color: 'inherit' }}
                   placeholder="Enter password"
                   autoComplete="current-password"
                   disabled={isLoading}
@@ -132,10 +133,10 @@ export const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-8 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold py-3.5 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
+              className="mx-auto block mt-8 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold py-3 px-12 rounded-lg transition duration-200 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg hover:shadow-xl"
             >
               {isLoading ? (
-                <span className="inline-flex items-center justify-center space-x-2 text-base">
+                <span className="inline-flex items-center justify-center space-x-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   <span>Signing in...</span>
                 </span>
@@ -159,7 +160,7 @@ export const LoginPage: React.FC = () => {
         {/* Footer */}
         <div className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
           <p className="text-center">
-            © 2025 CRY. All rights reserved.
+            © {currentYear} CRY. All rights reserved.
           </p>
         </div>
       </div>
